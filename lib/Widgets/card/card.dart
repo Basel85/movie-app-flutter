@@ -11,7 +11,7 @@ class WorkCard extends StatelessWidget {
       onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => dataDetails)),
       child: Container(
         width: 150,
-        margin: const EdgeInsets.all(8.0),
+        margin: const EdgeInsets.only(right: 8,top: 8,bottom: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

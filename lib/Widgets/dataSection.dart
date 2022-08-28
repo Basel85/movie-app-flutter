@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/Widgets/dataDisplaying.dart';
- class DataCategory extends StatelessWidget {
+import 'package:movie_app/Widgets/dataListView/dataListView.dart';
+ class DataSection extends StatelessWidget {
   late String  categoryName;
-  late DataDisplaying  dataDisplaying;
-  DataCategory(name, obj){
+  late DataListView  dataDisplaying;
+  DataSection(name, obj){
     categoryName=name;
     dataDisplaying = obj;
   }
@@ -14,7 +14,7 @@ import 'package:movie_app/Widgets/dataDisplaying.dart';
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 8,top: 24),
+          padding: const EdgeInsets.only(top: 24),
           child:Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

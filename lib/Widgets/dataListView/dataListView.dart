@@ -4,22 +4,22 @@ import 'package:movie_app/Classes/fetcher.dart';
 import 'package:movie_app/Classes/imageUrlSegments.dart';
 import 'package:movie_app/Classes/pageLoading.dart';
 import 'package:movie_app/Screens/Details.dart';
-import 'package:movie_app/Widgets/card.dart';
+import 'package:movie_app/Widgets/card/card.dart';
 import 'package:movie_app/Widgets/loading.dart';
-abstract class DataDisplaying extends StatefulWidget with PageLoading,Data {
+abstract class DataListView extends StatefulWidget with PageLoading,Data {
   final String apiUrl;
 
   Widget makeCard(data);
 
-  DataDisplaying(this.apiUrl);
+  DataListView(this.apiUrl);
 
   @override
-  _DataDisplayingState createState() => _DataDisplayingState();
+  _DataListViewState createState() => _DataListViewState();
 }
 
-class _DataDisplayingState extends State<DataDisplaying> {
+class _DataListViewState extends State<DataListView> {
 
-
+  
   @override
   void initState() {
     Fetcher(widget.apiUrl).fetch().then((value) {
@@ -44,20 +44,20 @@ class _DataDisplayingState extends State<DataDisplaying> {
     );}
 }
 
-class MoviesDisplaying extends DataDisplaying {
-  MoviesDisplaying(super.apiUrl);
+class MoviesListView extends DataListView {
+  MoviesListView(super.apiUrl);
 
   @override
   Widget makeCard(data){
-    return WorkCard(ImageUrlSegments().domain+data["poster_path"],data["original_title"], data["vote_average"],MovieDetails(data["id"],ImageUrlSegments().domain+data["poster_path"],"movie"));
+    return WorkCard(ImageUrlSegments().domain+data["poster_path"],data["original_title"], data["vote_average"],MovieDetails(data["id"],"movie"));
   }
 }
 
-class TvsDisplaying extends DataDisplaying{
-  TvsDisplaying(super.apiUrl);
+class TvsListView extends DataListView{
+  TvsListView(super.apiUrl);
 
   @override
   Widget makeCard(data) {
-    return WorkCard(ImageUrlSegments().domain+data["poster_path"],data["original_name"], data["vote_average"],TVDetails(data["id"],ImageUrlSegments().domain+data["poster_path"],"tv"));
+    return WorkCard(ImageUrlSegments().domain+data["poster_path"],data["original_name"], data["vote_average"],TVDetails(data["id"],"tv"));
   }
 }
