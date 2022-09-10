@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/Classes/imageUrlSegments.dart';
+import 'package:movie_app/constants.dart';
+
 
 class CastCard extends StatelessWidget {
   final _castCount;
@@ -23,9 +24,9 @@ class CastCard extends StatelessWidget {
               children: [
                 ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(ImageUrlSegments().domain +
-                        _data[index]["profile_path"])),
-                Text(_data[index]["original_name"],
+                    child: Image.network(imageDomain +
+                        _data[index].profileImage)),
+                Text(_data[index].originalName,
                     style: Theme.of(context).textTheme.subtitle2,
                     textAlign: TextAlign.center)
               ],

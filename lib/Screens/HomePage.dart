@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/Classes/apiUrlSegments.dart';
 import 'package:movie_app/Widgets/dataListView/dataListView.dart';
 import 'package:movie_app/Widgets/image/imageCarousel.dart';
 import 'package:movie_app/Widgets/dataSection.dart';
+import 'package:movie_app/data/models/undetailedMovie.dart';
+import 'package:movie_app/providers/undetailedData_provider.dart';
+import 'package:movie_app/providers/undetailedMovies_provider.dart';
+import 'package:movie_app/providers/undetailedTvs_provider.dart';
+import 'package:provider/provider.dart';
+import '../data/models/undetailedTv.dart';
+
 class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -15,13 +21,16 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: ListView(
           children: [
-            UpcomingMovies(),
-            Container(padding: const EdgeInsets.only(left: 8),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-              DataSection("Now Playing",new MoviesListView("${ApiUrlSegments().domain}/movie/now_playing?api_key=${ApiUrlSegments().api_key}")),
-              DataSection("On TV",new TvsListView("${ApiUrlSegments().domain}/tv/popular?api_key=${ApiUrlSegments().api_key}")),
-              DataSection("Popular Movies", new MoviesListView("${ApiUrlSegments().domain}/movie/popular?api_key=${ApiUrlSegments().api_key}")),
-            ]),
+            UpcomingData("movie",Provider.of<UpcomingMovies>(context,listen: false),Provider.of<UpcomingMovies>(context)),
+            Container(
+              padding: const EdgeInsets.only(left: 8),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DataSection("Now Playing",MoviesListView("movie","now_playing",Provider.of<NowPlayingMovies>(context,listen: false),Provider.of<NowPlayingMovies>(context))),
+                    DataSection("On TV", TvsListView("tv","popular",Provider.of<PopularTvs>(context,listen: false),Provider.of<PopularTvs>(context))),
+                    DataSection("Popular Movies", MoviesListView("movie","popular",Provider.of<PopularMovies>(context,listen: false),Provider.of<PopularMovies>(context))),
+                  ]),
             )
           ],
         ),

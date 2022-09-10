@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/Classes/apiUrlSegments.dart';
-import 'package:movie_app/Classes/data.dart';
-import 'package:movie_app/Classes/fetcher.dart';
-import 'package:movie_app/Classes/pageLoading.dart';
+import 'package:movie_app/mixins/pageLoading.dart';
 import 'package:movie_app/Widgets/card/castCard.dart';
 import 'package:movie_app/Widgets/loading.dart';
+import 'package:provider/provider.dart';
 
-class CastListView extends StatefulWidget with PageLoading, Data {
+import '../../data/models/cast.dart';
+
+class CastListView extends StatefulWidget with PageLoading {
   final _id;
   final _type;
   CastListView(this._id, this._type);
@@ -16,29 +16,10 @@ class CastListView extends StatefulWidget with PageLoading, Data {
 }
 
 class _CastListViewState extends State<CastListView> {
-  int castCount = 0; // Number of casts that have a profile image
-  int countAvaliableProfileImage(casts) {
-    int count = 0;
-    for (var cast in casts) {
-      if (cast["profile_path"] == null) {
-        return count;
-      }
-      count++;
-    }
-    return count;
-  }
 
   @override
   void initState() {
-    Fetcher("${ApiUrlSegments().domain}/${widget._type}/${widget._id}/credits?api_key=${ApiUrlSegments().api_key}")
-        .fetch()
-        .then((Value) {
-      setState(() {
-        widget.dataInAList = Value["cast"];
-        castCount = countAvaliableProfileImage(widget.dataInAList);
-        widget.is_Loading = false;
-      });
-    });
+    Provider.of<Casts>(context,listen : false).fetch(widget._id,widget._type);
     super.initState();
   }
 
@@ -54,9 +35,9 @@ class _CastListViewState extends State<CastListView> {
         SizedBox(
           height: 8,
         ),
-        widget.is_Loading
+        Provider.of<Casts>(context).is_Loading
             ? Loading()
-            : castCount == 0
+            : Provider.of<Casts>(context).castCount == 0
                 ? Container(
                     margin: EdgeInsets.only(bottom: 24),
                     child: Text(
@@ -64,7 +45,7 @@ class _CastListViewState extends State<CastListView> {
                       style: Theme.of(context).textTheme.subtitle2,
                     ))
                 : Builder(builder: (context) {
-                    return CastCard(castCount, widget.dataInAList);
+                    return CastCard(Provider.of<Casts>(context,listen: false).castCount, Provider.of<Casts>(context,listen: false).casts);
                   })
       ],
     );

@@ -1,38 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:movie_app/Classes/apiUrlSegments.dart';
-import 'package:movie_app/Classes/data.dart';
-import 'package:movie_app/Classes/fetcher.dart';
-import 'package:movie_app/Classes/pageLoading.dart';
 import 'package:movie_app/Screens/Details.dart';
 import 'package:movie_app/Widgets/image/imageDesign.dart';
 import 'package:movie_app/Widgets/loading.dart';
-class UpcomingMovies extends StatefulWidget with Data,PageLoading{
+import 'package:movie_app/data/models/detailedMovie.dart';
+import 'package:movie_app/data/models/undetailedMovie.dart';
+import 'package:movie_app/providers/undetailedData_provider.dart';
+import 'package:provider/provider.dart';
+
+class UpcomingData extends StatefulWidget {
+  final type;
+  final providerWithNoListening;
+  final providerWithListening;
+  UpcomingData(this.type, this.providerWithNoListening,this.providerWithListening);
   @override
-  State<UpcomingMovies> createState() => _UpcomingMoviesState();
+  State<UpcomingData> createState() => _UpcomingDataState();
 }
 
-class _UpcomingMoviesState extends State<UpcomingMovies> {
+class _UpcomingDataState extends State<UpcomingData> {
   @override
   void initState() {
-    Fetcher("${ApiUrlSegments().domain}/movie/upcoming?api_key=${ApiUrlSegments().api_key}").fetch().then((value){
-      setState(() {
-        widget.dataInAList=value["results"];
-        widget.is_Loading=false;
-      });
-    });
+    widget.providerWithNoListening.fetch(widget.type,"upcoming");
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return widget.is_Loading?Loading():CarouselSlider(options: CarouselOptions(
-      height: 400,
-      viewportFraction: 1,
-    ), items: widget.dataInAList.map((movie) {
-      return GestureDetector(
-      onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => MovieDetails(movie["id"],"movie")),),
-      child: CarouselImageEditing(movie, "Action • Drama • Adventure"),
-    );
-    },).toList());
+    return widget.providerWithListening.is_Loading
+        ? Loading()
+        : CarouselSlider(
+            options: CarouselOptions(
+              height: 400,
+              viewportFraction: 1,
+            ),
+            items: widget.providerWithListening.dataList.map(
+              (data) {
+                return GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => MovieDetails(
+                            Provider.of<DetailedMovies>(context, listen: false),
+                            Provider.of<DetailedMovies>(context),
+                            data.id)),
+                  ),
+                  child:
+                      CarouselImageEditing(data, "Action • Drama • Adventure"),
+                );
+              },
+            ).toList().cast<Widget>());
   }
 }

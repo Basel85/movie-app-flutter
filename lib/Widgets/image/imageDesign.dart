@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/Classes/imageUrlSegments.dart';
 import 'package:movie_app/Widgets/image/infoInsideImage.dart';
 
 abstract class ImageEditing extends StatelessWidget {
@@ -17,7 +16,7 @@ abstract class ImageEditing extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.fill,
               image: NetworkImage(
-                ImageUrlSegments().domain + _data["poster_path"],
+                _data.image,
               ),
             ),
           ),
@@ -102,10 +101,10 @@ class MovieImageEditing extends ImageEditing {
   @override
   Widget buildInfoInsideImage() {
     return InfoInsideImage(
-        _data["original_title"],
-        "${_data["release_date"]} • $_Categories",
-        _data["vote_average"],
-        _data["vote_count"]);
+        _data.title,
+        "${_data.releaseDate} • $_Categories",
+        _data.voteAverage,
+        _data.voteCount);
   }
 }
 
@@ -115,10 +114,10 @@ class TvImageEditing extends ImageEditing {
   @override
   Widget buildInfoInsideImage() {
     return InfoInsideImage(
-        _data["original_name"],
-        "${_data["first_air_date"]} • $_Categories • ${_data["number_of_seasons"]} ${_data["number_of_seasons"] == 1 ? "season" : "seasons"}",
-        _data["vote_average"],
-        _data["vote_count"]);
+        _data.name,
+        "${_data.firstAirDate} • $_Categories • ${_data.seasons.length} ${_data.seasons.length == 1 ? "season" : "seasons"}",
+        _data.voteAverage,
+        _data.voteCount);
   }
 }
 
@@ -133,9 +132,9 @@ class CarouselImageEditing extends ImageEditing{
   @override
   Widget buildInfoInsideImage() {
     return InfoInsideImage(
-        _data["original_title"],
+        _data.title,
         "$_Categories",
-        _data["vote_average"],
-        _data["vote_count"]);
+        _data.voteAverage,
+        _data.voteCount);
   }
 }

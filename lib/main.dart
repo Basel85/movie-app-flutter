@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/Screens/HomePage.dart';
+import 'package:movie_app/data/models/cast.dart';
+import 'package:movie_app/data/models/detailedMovie.dart';
+import 'package:movie_app/data/models/detailedTv.dart';
+import 'package:movie_app/data/models/undetailedMovie.dart';
+import 'package:movie_app/data/models/undetailedTv.dart';
+import 'package:movie_app/providers/undetailedData_provider.dart';
+import 'package:movie_app/providers/undetailedMovies_provider.dart';
+import 'package:movie_app/providers/undetailedTvs_provider.dart';
 import 'package:provider/provider.dart';
 
+
 void main() {
-  runApp(MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<Casts>(create: (_)=>Casts()),
+    ChangeNotifierProvider<DetailedMovies>(create: (_)=>DetailedMovies()),
+    ChangeNotifierProvider<DetailedTvs>(create: (_)=>DetailedTvs()),
+    ChangeNotifierProvider<SimilarMovies>(create: (_)=>SimilarMovies()),
+    ChangeNotifierProvider<UpcomingMovies>(create: (_)=>UpcomingMovies()),
+    ChangeNotifierProvider<NowPlayingMovies>(create: (_)=>NowPlayingMovies()),
+    ChangeNotifierProvider<PopularTvs>(create: (_)=>PopularTvs()),
+    ChangeNotifierProvider<PopularMovies>(create: (_)=>PopularMovies())
+  ],child: MyApp(),));
 }
 
 class MyApp extends StatelessWidget {

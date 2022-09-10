@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/Classes/apiUrlSegments.dart';
-import 'package:movie_app/Classes/data.dart';
-import 'package:movie_app/Classes/fetcher.dart';
-import 'package:movie_app/Classes/pageLoading.dart';
 import 'package:movie_app/Widgets/dataListView/castListView.dart';
+import 'package:movie_app/Widgets/dataListView/seasonListView.dart';
 import 'package:movie_app/Widgets/dataSection.dart';
 import 'package:movie_app/Widgets/dataListView/dataListView.dart';
 import 'package:movie_app/Widgets/image/imageDesign.dart';
 import 'package:movie_app/Widgets/loading.dart';
+import 'package:movie_app/data/models/undetailedMovie.dart';
+import 'package:provider/provider.dart';
+import '../data/models/undetailedTv.dart';
 
-abstract class Details extends StatefulWidget with PageLoading, Data {
-  final _id;
-  final _type;
+abstract class Details extends StatefulWidget {
+  final providerWithNoListening;
+  final providerWithListening;
+  final id;
   List<String> Categories = [];
-  Details(this._id, this._type);
+
+  Details(this.providerWithNoListening, this.providerWithListening,this.id);
+
   Widget buildImageSection();
-  Widget buildSimilarSection();
+
+  // Widget buildSimilarSection(context);
+
   Widget buildStorySection(context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
@@ -26,7 +31,7 @@ abstract class Details extends StatefulWidget with PageLoading, Data {
         height: 8,
       ),
       Text(
-        dataInAMap["overview"],
+        providerWithListening.detailedData.overview,
         style: Theme.of(context).textTheme.bodyText1,
       ),
     ]);
@@ -41,24 +46,14 @@ abstract class Details extends StatefulWidget with PageLoading, Data {
 class _DetailsState extends State<Details> {
   @override
   void initState() {
-    Fetcher("${ApiUrlSegments().domain}/${widget._type}/${widget._id}?api_key=${ApiUrlSegments().api_key}")
-        .fetch()
-        .then((Value) {
-      setState(() {
-        widget.dataInAMap = Value;
-        for (var category in widget.dataInAMap["genres"]) {
-          widget.Categories.add(category["name"]);
-        }
-        widget.is_Loading = false;
-      });
-    });
+    widget.providerWithNoListening.fetch(widget.id);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.is_Loading
+      body: widget.providerWithListening.is_Loading
           ? Loading()
           : ListView(
               children: [
@@ -71,21 +66,25 @@ class _DetailsState extends State<Details> {
 }
 
 class MovieDetails extends Details {
-  MovieDetails(super.id, super.type);
+  MovieDetails(super.providerWithNoListening, super.providerWithListening,super.id);
+
   Widget buildImageSection() {
     return Container(
       height: 400,
-      child: MovieImageEditing(dataInAMap, Categories),
+      child: MovieImageEditing(
+          super.providerWithListening.detailedData, Categories),
     );
   }
 
-  @override
-  Widget buildSimilarSection() {
-    return DataSection(
-        "Similar",
-        new MoviesListView(
-            "${ApiUrlSegments().domain}/${_type}/${_id}/similar?api_key=${ApiUrlSegments().api_key}"));
-  }
+  // @override
+  // Widget buildSimilarSection(context) {
+  //   return DataSection(
+  //       "Similar",
+  //       MoviesListView(
+  //           Provider.of<SimilarMovies>(context,
+  //               listen: false)
+  //               ));
+  // }
 
   Widget buildOtherContents(context) {
     return Container(
@@ -95,40 +94,44 @@ class MovieDetails extends Details {
         const SizedBox(
           height: 24,
         ),
-        CastListView(_id, _type),
-        buildSimilarSection()
+        CastListView(super.providerWithListening.detailedData.id, "movie"),
+        // buildSimilarSection(context)
       ]),
     );
   }
 }
 
 class TVDetails extends Details {
-  TVDetails(super.id, super.type);
+  TVDetails(super.providerWithNoListening, super.providerWithListening,super.id);
 
   Widget buildImageSection() {
     return Container(
       height: 400,
-      child: TvImageEditing(dataInAMap, Categories),
+      child:
+          TvImageEditing(super.providerWithListening.detailedData, Categories),
     );
   }
 
-  @override
-  Widget buildSimilarSection() {
-    return DataSection(
-        "Similar",
-        new TvsListView(
-            "${ApiUrlSegments().domain}/${_type}/${_id}/similar?api_key=${ApiUrlSegments().api_key}"));
-  }
+  // @override
+  // Widget buildSimilarSection(context) {
+  //   return DataSection(
+  //       "Similar",
+  //       TvsListView(
+  //       Provider.of<SimilarTvs>(context,
+  //       listen: false)
+  //       ));
+  // }
 
   Widget buildOtherContents(context) {
     return Container(
-      padding: const EdgeInsets.only(left: 8, top: 24),
+      padding: const EdgeInsets.only(left: 8, top: 24, right: 8),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         buildStorySection(context),
         const SizedBox(
           height: 24,
         ),
-        buildSimilarSection()
+        SeasonListView(super.providerWithListening.detailedData.seasons),
+        // buildSimilarSection(context)
       ]),
     );
   }

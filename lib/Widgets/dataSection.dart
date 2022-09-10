@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/Widgets/dataListView/dataListView.dart';
  class DataSection extends StatelessWidget {
   late String  categoryName;
-  late DataListView  dataDisplaying;
+  late dynamic  dataDisplaying;
   DataSection(name, obj){
     categoryName=name;
     dataDisplaying = obj;
