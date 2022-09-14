@@ -20,7 +20,8 @@ void main() {
     ChangeNotifierProvider<NowPlayingMovies>(create: (_)=>NowPlayingMovies()),
     ChangeNotifierProvider<PopularTvs>(create: (_)=>PopularTvs()),
     ChangeNotifierProvider<PopularMovies>(create: (_)=>PopularMovies(),),
-    ChangeNotifierProvider<Episodes>(create: (_)=>Episodes())
+    ChangeNotifierProvider<Episodes>(create: (_)=>Episodes()),
+    ChangeNotifierProvider<SimilarTvs>(create: (_)=>SimilarTvs())
   ],child: MyApp(),));
 }
 

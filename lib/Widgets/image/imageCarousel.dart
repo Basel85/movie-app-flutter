@@ -40,9 +40,8 @@ class _UpcomingDataState extends State<UpcomingData> with PageLoading {
                 return GestureDetector(
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
-                        builder: (context) => MovieDetails(
-                            Provider.of<DetailedMovies>(context, listen: false),
-                            Provider.of<DetailedMovies>(context),
+                        builder: (_) => MovieDetails(
+                            Provider.of<DetailedMovies>,
                             data.id,"movie")),
                   ),
                   child:

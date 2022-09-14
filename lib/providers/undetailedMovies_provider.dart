@@ -12,3 +12,4 @@ class UnDetailedMovies extends UnDetailedData{
 class UpcomingMovies extends UnDetailedMovies{}
 class NowPlayingMovies extends UnDetailedMovies{}
 class PopularMovies extends UnDetailedMovies{}
+class SimilarMovies extends UnDetailedMovies{}

@@ -7,7 +7,7 @@ class Api {
     if (reponse.statusCode == 200) {
       return reponse.body;
     } else {
-      return "error";
+      throw "error";
     }
   }
 }

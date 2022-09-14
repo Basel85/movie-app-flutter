@@ -8,8 +8,9 @@ abstract class UnDetailedData with ChangeNotifier {
   Future<void> fetch(type,category, [id]) async {
     String idUrlSegment = "";
     if (id != null) {
-      idUrlSegment = id + "/";
+      idUrlSegment = "$id/";
     }
+    print(idUrlSegment);
     final data = await Api().getData("/$type/$idUrlSegment$category?api_key=");
     final result = json.decode(data) as Map<String, dynamic>;
     getData(result);

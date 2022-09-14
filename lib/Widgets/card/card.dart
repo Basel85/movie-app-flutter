@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/noImage.dart';
 
 class WorkCard extends StatelessWidget {
   final _imageUrl;
@@ -8,17 +9,21 @@ class WorkCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 150,
-        margin: const EdgeInsets.only(right: 8,top: 8,bottom: 8),
+       color: Colors.green,
+        width: 140,
+        margin: const EdgeInsets.only(left: 24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  _imageUrl,
-                )),
+            Container(
+              height: 210,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: _imageUrl==null?NoImage():Image.network(
+                    _imageUrl,
+                  )),
+            ),
             Text(_title,
                 style: Theme.of(context).textTheme.subtitle2,overflow: TextOverflow.ellipsis,),
             Row(

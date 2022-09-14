@@ -12,8 +12,9 @@ abstract class DataListView extends StatefulWidget with Data {
   final category;
   final providerWithNoListening;
   final providerWithListening;
+  final int? id;
   Widget makeCard(data, context);
-  DataListView(this.type,this.category,this.providerWithNoListening,this.providerWithListening);
+  DataListView(this.type,this.category,this.providerWithNoListening,this.providerWithListening,this.id);
   @override
   _DataListViewState createState() => _DataListViewState();
 }
@@ -22,7 +23,7 @@ class _DataListViewState extends State<DataListView> with PageLoading {
 
   @override
   void initState() {
-    widget.providerWithNoListening.fetch(widget.type,widget.category).then((_)=> is_Loading=false);
+    widget.providerWithNoListening.fetch(widget.type,widget.category,widget.id).then((_)=> is_Loading=false);
     super.initState();
   }
 
@@ -44,17 +45,16 @@ class _DataListViewState extends State<DataListView> with PageLoading {
 }
 
 class MoviesListView extends DataListView {
-  MoviesListView(super.type, super.category, super.providerWithNoListening, super.providerWithListening);
+  MoviesListView(super.type, super.category, super.providerWithNoListening, super.providerWithListening,super.id);
 
 
-  
+
 
   @override
   Widget makeCard(data, context) {
     return GestureDetector(
       onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => MovieDetails(
-          Provider.of<DetailedMovies>(context, listen: false),
-          Provider.of<DetailedMovies>(context),
+          Provider.of<DetailedMovies>,
           data.id,"movie"))),
       child: WorkCard(
         data.image,
@@ -66,13 +66,12 @@ class MoviesListView extends DataListView {
 }
 
 class TvsListView extends DataListView {
-  TvsListView(super.type, super.category, super.providerWithNoListening, super.providerWithListening);
+  TvsListView(super.type, super.category, super.providerWithNoListening, super.providerWithListening, super.id);
 
   @override
   Widget makeCard(data, context) {
     return GestureDetector(
-      onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context)=>TVDetails(Provider.of<DetailedTvs>(context, listen: false),
-          Provider.of<DetailedTvs>(context), data.id,"tv"))),
+      onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context)=>TVDetails(Provider.of<DetailedTvs>, data.id,"tv"))),
       child: WorkCard(
         data.image,
         data.name,

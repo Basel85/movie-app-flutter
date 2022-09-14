@@ -3,7 +3,7 @@ import 'package:movie_app/constants.dart';
 class DetailedMovie {
   late int id;
   late String title;
-  late String image;
+  late String? image;
   late int voteCount;
   late double voteAverage;
   late String releaseDate;
@@ -14,7 +14,7 @@ class DetailedMovie {
   DetailedMovie.fromJson(Map<String, dynamic> json) {
     id = json["id"];
     title = json["title"];
-    image = imageDomain + json["poster_path"];
+    image = json["poster_path"]==null?null:imageDomain + json["poster_path"];
     voteCount = json["vote_count"];
     voteAverage = json["vote_average"];
     releaseDate = json["release_date"];

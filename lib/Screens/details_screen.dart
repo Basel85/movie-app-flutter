@@ -3,17 +3,22 @@ import 'package:movie_app/Widgets/dataListView/castListView.dart';
 import 'package:movie_app/Widgets/dataListView/seasonListView.dart';
 import 'package:movie_app/Widgets/image/imageDesign.dart';
 import 'package:movie_app/Widgets/loading.dart';
+import 'package:movie_app/providers/undetailedMovies_provider.dart';
+import 'package:provider/provider.dart';
+import '../Widgets/dataListView/dataListView.dart';
+import '../Widgets/dataSection.dart';
 import '../mixins/Data.dart';
 import '../mixins/pageLoading.dart';
+import '../providers/undetailedTvs_provider.dart';
 
 abstract class Details extends StatefulWidget with Data {
-  final providerWithNoListening;
-  final providerWithListening;
+  final provider;
+
   final id;
   final type;
   List<String> Categories = [];
 
-  Details(this.providerWithNoListening, this.providerWithListening,this.id,this.type);
+  Details(this.provider,this.id,this.type);
 
   Widget buildImageSection();
 
@@ -26,7 +31,7 @@ abstract class Details extends StatefulWidget with Data {
         style: Theme.of(context).textTheme.subtitle2,
       ),
       const SizedBox(
-        height: 8,
+        height: 16,
       ),
       Text(
         detailedData.overview,
@@ -44,17 +49,16 @@ abstract class Details extends StatefulWidget with Data {
 class _DetailsState extends State<Details> with PageLoading {
   @override
   void initState() {
-    widget.providerWithNoListening.fetch(widget.type,widget.id).then((_){
+    widget.provider(context,listen : false).fetch(widget.type,widget.id).then((_){
       is_Loading=false;
-      print("NNNN");
+      widget.detailedData = widget.provider(context).detailedData;
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    widget.detailedData = widget.providerWithListening.detailedData;
-    print(widget.detailedData);
+    print(context);
     return Scaffold(
       body: is_Loading
           ? Loading()
@@ -69,8 +73,7 @@ class _DetailsState extends State<Details> with PageLoading {
 }
 
 class MovieDetails extends Details {
-  MovieDetails(super.providerWithNoListening, super.providerWithListening, super.id, super.type);
-
+  MovieDetails(super.provider, super.id, super.type);
 
 
   Widget buildImageSection() {
@@ -81,33 +84,35 @@ class MovieDetails extends Details {
     );
   }
 
-  // @override
-  // Widget buildSimilarSection(context) {
-  //   return DataSection(
-  //       "Similar",
-  //       MoviesListView(
-  //           Provider.of<SimilarMovies>(context,
-  //               listen: false)
-  //               ));
-  // }
+  @override
+  Widget buildSimilarSection(context) {
+    return DataSection(
+        "Similar",
+        MoviesListView("movie","similar",
+        Provider.of<SimilarMovies>(context,
+            listen: false),Provider.of<SimilarMovies>(context),detailedData.id
+    ));
+  }
 
   Widget buildOtherContents(context) {
     return Container(
-      padding: const EdgeInsets.only(left: 8, top: 24),
+
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        buildStorySection(context),
-        const SizedBox(
-          height: 24,
+        Container(
+          margin: const EdgeInsets.only(left: 24, top: 24,right: 24,bottom: 16),
+          child: buildStorySection(context),
         ),
         CastListView(detailedData.id, "movie"),
-        // buildSimilarSection(context)
+        buildSimilarSection(context)
       ]),
     );
   }
 }
 
 class TVDetails extends Details {
-  TVDetails(super.providerWithNoListening, super.providerWithListening, super.id, super.type);
+  TVDetails(super.provider, super.id, super.type);
+
+
 
 
 
@@ -119,26 +124,25 @@ class TVDetails extends Details {
     );
   }
 
-  // @override
-  // Widget buildSimilarSection(context) {
-  //   return DataSection(
-  //       "Similar",
-  //       TvsListView(
-  //       Provider.of<SimilarTvs>(context,
-  //       listen: false)
-  //       ));
-  // }
+  @override
+  Widget buildSimilarSection(context) {
+    return DataSection(
+        "Similar",
+        TvsListView("tv","similar",
+        Provider.of<SimilarTvs>(context,
+        listen: false),Provider.of<SimilarTvs>(context),detailedData.id
+        ));
+  }
 
   Widget buildOtherContents(context) {
     return Container(
-      padding: const EdgeInsets.only(left: 8, top: 24, right: 8),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        buildStorySection(context),
-        const SizedBox(
-          height: 24,
+        Container(
+          margin: const EdgeInsets.only(left: 24, top: 24,right: 24,bottom: 16),
+          child: buildStorySection(context),
         ),
         SeasonListView(detailedData.id,detailedData.seasons),
-        // buildSimilarSection(context)
+        buildSimilarSection(context)
       ]),
     );
   }

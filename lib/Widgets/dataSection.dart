@@ -13,8 +13,8 @@ import 'package:movie_app/Widgets/dataListView/dataListView.dart';
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 24),
+        Container(
+          margin: const EdgeInsets.only(top: 24,left: 24,right: 24,bottom: 16),
           child:Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

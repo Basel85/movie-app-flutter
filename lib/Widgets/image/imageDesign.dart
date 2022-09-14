@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/Widgets/image/infoInsideImage.dart';
 
+import '../../noImage.dart';
+
 abstract class ImageEditing extends StatelessWidget {
   final _data;
   final _Categories;
@@ -11,7 +13,7 @@ abstract class ImageEditing extends StatelessWidget {
         Container(
           height: 400,
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: _data.image!=null?BoxDecoration(
             color: Colors.red,
             image: DecorationImage(
               fit: BoxFit.cover,
@@ -19,14 +21,15 @@ abstract class ImageEditing extends StatelessWidget {
                 _data.image,
               ),
             ),
-          ),
+          ):null,
+            child : _data.image!=null?null:NoImage()
         ),
         Align(
           alignment: AlignmentDirectional(0, 1),
           child: Container(
             width: double.infinity,
             height: 200,
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.only(left: 24 , right: 24 ,top: 8 , bottom: 8),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [

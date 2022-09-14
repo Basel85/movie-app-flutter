@@ -15,24 +15,11 @@ class CastListView extends StatefulWidget with PageLoading {
 }
 
 class _CastListViewState extends State<CastListView> with PageLoading {
-  int castCount = 0;
-
-  int countAvaliableProfileImage(casts) {
-    int count = 0;
-    for (var cast in casts) {
-      if (cast.profileImage == null) {
-        return count;
-      }
-      count++;
-    }
-    return count;
-  }
 
   @override
   void initState() {
     Provider.of<Casts>(context,listen : false).fetch(widget._id,widget._type).then((casts){
       is_Loading = false;
-      castCount = countAvaliableProfileImage(casts);
     });
     super.initState();
   }
@@ -40,29 +27,32 @@ class _CastListViewState extends State<CastListView> with PageLoading {
   @override
   Widget build(BuildContext context) {
     List<dynamic> casts = Provider.of<Casts>(context).casts;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Cast",
-          style: Theme.of(context).textTheme.subtitle2,
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        is_Loading
-            ? Loading()
-            : castCount == 0
-                ? Container(
-                    margin: EdgeInsets.only(bottom: 24),
-                    child: Text(
-                      "No Details yet",
-                      style: Theme.of(context).textTheme.subtitle2,
-                    ))
-                : Builder(builder: (context) {
-                    return CastCard(castCount, casts);
-                  })
-      ],
+    return Container(
+      margin: const EdgeInsets.only(left: 24,top: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Cast",
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          is_Loading
+              ? Loading()
+              : casts.isEmpty
+                  ? Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      child: Text(
+                        "No Details yet",
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ))
+                  : Builder(builder: (context) {
+                      return CastCard(casts.length, casts);
+                    })
+        ],
+      ),
     );
   }
 }

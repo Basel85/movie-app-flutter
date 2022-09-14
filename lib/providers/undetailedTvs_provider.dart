@@ -10,3 +10,4 @@ class UnDetailedTvs extends UnDetailedData{
   }
 }
 class PopularTvs extends UnDetailedTvs{}
+class SimilarTvs extends UnDetailedTvs{}

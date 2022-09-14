@@ -24,9 +24,9 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    DataSection("Now Playing",MoviesListView("movie","now_playing",Provider.of<NowPlayingMovies>(context,listen: false),Provider.of<NowPlayingMovies>(context))),
-                    DataSection("On TV", TvsListView("tv","popular",Provider.of<PopularTvs>(context,listen: false),Provider.of<PopularTvs>(context))),
-                    DataSection("Popular Movies", MoviesListView("movie","popular",Provider.of<PopularMovies>(context,listen: false),Provider.of<PopularMovies>(context))),
+                    DataSection("Now Playing",MoviesListView("movie","now_playing",Provider.of<NowPlayingMovies>(context,listen: false),Provider.of<NowPlayingMovies>(context),null)),
+                    DataSection("On TV", TvsListView("tv","popular",Provider.of<PopularTvs>(context,listen: false),Provider.of<PopularTvs>(context),null)),
+                    DataSection("Popular Movies", MoviesListView("movie","popular",Provider.of<PopularMovies>(context,listen: false),Provider.of<PopularMovies>(context),null)),
                   ]),
             )
           ],
