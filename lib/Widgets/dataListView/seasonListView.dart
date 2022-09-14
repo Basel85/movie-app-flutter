@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/Screens/Episodes.dart';
+import 'package:movie_app/Screens/episodes_screen.dart';
 import 'package:movie_app/constants.dart';
 
 class SeasonListView extends StatelessWidget {
+  final tvId;
   final seasons;
-  SeasonListView(this.seasons);
+  SeasonListView(this.tvId,this.seasons);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: List.generate(
-          seasons.length,
-          (index) => GestureDetector(
-                onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>Episodes(seasons[index]["name"]))),
+      children: [
+        Text("Seasons",style: Theme.of(context).textTheme.subtitle2,),
+        const SizedBox(height: 8,),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: List.generate(
+              seasons.length,
+                  (index) => GestureDetector(
+                onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>EpisodesList(tvId,seasons[index]["season_number"],seasons[index]["name"]))),
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   padding: EdgeInsets.zero,
@@ -25,7 +32,7 @@ class SeasonListView extends StatelessWidget {
                           height: 210,
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
+                              child: seasons[index]["poster_path"]==null? Container(width: 140,child: Center(child: Text("No image"),),):Image.network(
                                 imageDomain +
                                     seasons[index]["poster_path"],
                               ))),
@@ -33,7 +40,7 @@ class SeasonListView extends StatelessWidget {
                         child: Container(
                           height: 210,
                           padding:
-                              const EdgeInsets.only(top: 8, left: 8, right: 8),
+                          const EdgeInsets.only(top: 8, left: 8, right: 8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
@@ -50,11 +57,11 @@ class SeasonListView extends StatelessWidget {
                               ),
                               Container(
                                   child: Text(
-                                seasons[index]["overview"],
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 7,
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )),
+                                    seasons[index]["overview"],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 7,
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  )),
                             ],
                           ),
                         ),
@@ -68,6 +75,8 @@ class SeasonListView extends StatelessWidget {
                   ),
                 ),
               )),
+        )
+      ]
     );
   }
 }

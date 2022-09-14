@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+
 class WorkCard extends StatelessWidget {
   final _imageUrl;
   final _title;
   final _vote_average;
-  final dataDetails;
-  WorkCard(this._imageUrl,this._title,this._vote_average,this.dataDetails);
+  WorkCard(this._imageUrl,this._title,this._vote_average);
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => dataDetails)),
-      child: Container(
+    return Container(
         width: 150,
         margin: const EdgeInsets.only(right: 8,top: 8,bottom: 8),
         child: Column(
@@ -43,7 +41,6 @@ class WorkCard extends StatelessWidget {
             )
           ],
         ),
-      ),
     );
   }
 }

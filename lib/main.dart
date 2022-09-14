@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_app/Screens/HomePage.dart';
-import 'package:movie_app/data/models/cast.dart';
-import 'package:movie_app/data/models/detailedMovie.dart';
-import 'package:movie_app/data/models/detailedTv.dart';
+import 'package:movie_app/Screens/homePage_screen.dart';
 import 'package:movie_app/data/models/undetailedMovie.dart';
-import 'package:movie_app/data/models/undetailedTv.dart';
-import 'package:movie_app/providers/undetailedData_provider.dart';
+import 'package:movie_app/providers/casts_provider.dart';
+import 'package:movie_app/providers/detailedData_provider.dart';
+import 'package:movie_app/providers/episodes_provider.dart';
 import 'package:movie_app/providers/undetailedMovies_provider.dart';
 import 'package:movie_app/providers/undetailedTvs_provider.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +19,8 @@ void main() {
     ChangeNotifierProvider<UpcomingMovies>(create: (_)=>UpcomingMovies()),
     ChangeNotifierProvider<NowPlayingMovies>(create: (_)=>NowPlayingMovies()),
     ChangeNotifierProvider<PopularTvs>(create: (_)=>PopularTvs()),
-    ChangeNotifierProvider<PopularMovies>(create: (_)=>PopularMovies())
+    ChangeNotifierProvider<PopularMovies>(create: (_)=>PopularMovies(),),
+    ChangeNotifierProvider<Episodes>(create: (_)=>Episodes())
   ],child: MyApp(),));
 }
 

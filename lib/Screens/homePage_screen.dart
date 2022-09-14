@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/Widgets/dataListView/dataListView.dart';
 import 'package:movie_app/Widgets/image/imageCarousel.dart';
 import 'package:movie_app/Widgets/dataSection.dart';
-import 'package:movie_app/data/models/undetailedMovie.dart';
-import 'package:movie_app/providers/undetailedData_provider.dart';
 import 'package:movie_app/providers/undetailedMovies_provider.dart';
 import 'package:movie_app/providers/undetailedTvs_provider.dart';
 import 'package:provider/provider.dart';
-import '../data/models/undetailedTv.dart';
 
 class MyHomePage extends StatefulWidget {
   @override

@@ -1,10 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:movie_app/mixins/pageLoading.dart';
 import 'package:movie_app/constants.dart';
-
-import '../apis/api.dart';
 
 class DetailedTv {
   late int id;
@@ -28,23 +22,5 @@ class DetailedTv {
     genres = json["genres"];
     overview = json["overview"];
     seasons = json["seasons"];
-  }
-}
-
-class DetailedTvs with ChangeNotifier, PageLoading {
-  DetailedTv detailedData = DetailedTv("", "", 0, 0.0, "", [], "", []);
-
-  Future<void>? reset() {
-    detailedData = DetailedTv("", "", 0, 0.0, "", [], "", []);
-    is_Loading = true;
-    notifyListeners();
-  }
-
-  Future<void> fetch(id) async {
-    final data = await Api().getData("/tv/$id?api_key=");
-    final result = json.decode(data) as Map<String, dynamic>;
-    detailedData = DetailedTv.fromJson(result);
-    is_Loading = false;
-    notifyListeners();
   }
 }

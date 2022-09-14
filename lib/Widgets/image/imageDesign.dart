@@ -14,7 +14,7 @@ abstract class ImageEditing extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.red,
             image: DecorationImage(
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
               image: NetworkImage(
                 _data.image,
               ),

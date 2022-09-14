@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/mixins/pageLoading.dart';
-import 'package:movie_app/Screens/Details.dart';
+import 'package:movie_app/Screens/details_screen.dart';
 import 'package:movie_app/Widgets/card/card.dart';
 import 'package:movie_app/Widgets/loading.dart';
-import 'package:movie_app/constants.dart';
-import 'package:movie_app/data/models/detailedMovie.dart';
-import 'package:movie_app/data/models/undetailedMovie.dart';
-import 'package:movie_app/providers/undetailedData_provider.dart';
 import 'package:provider/provider.dart';
+import '../../mixins/Data.dart';
+import '../../providers/detailedData_provider.dart';
 
-import '../../data/models/detailedTv.dart';
-
-abstract class DataListView extends StatefulWidget {
+abstract class DataListView extends StatefulWidget with Data {
   final type;
   final category;
   final providerWithNoListening;
@@ -22,25 +18,27 @@ abstract class DataListView extends StatefulWidget {
   _DataListViewState createState() => _DataListViewState();
 }
 
-class _DataListViewState extends State<DataListView> {
+class _DataListViewState extends State<DataListView> with PageLoading {
+
   @override
   void initState() {
-    widget.providerWithNoListening.fetch(widget.type,widget.category);
+    widget.providerWithNoListening.fetch(widget.type,widget.category).then((_)=> is_Loading=false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.providerWithListening.is_Loading
+    widget.undetailedData = widget.providerWithListening.dataList;
+    return is_Loading
         ? Loading()
         : Container(
             height: 300,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: widget.providerWithListening.dataList.length,
+                itemCount: widget.undetailedData.length,
                 itemBuilder: (BuildContext context, int index) =>
                     widget.makeCard(
-                        widget.providerWithListening.dataList[index],
+                        widget.undetailedData[index],
                         context)));
   }
 }
@@ -53,12 +51,17 @@ class MoviesListView extends DataListView {
 
   @override
   Widget makeCard(data, context) {
-    return WorkCard(
+    return GestureDetector(
+      onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => MovieDetails(
+          Provider.of<DetailedMovies>(context, listen: false),
+          Provider.of<DetailedMovies>(context),
+          data.id,"movie"))),
+      child: WorkCard(
         data.image,
         data.title,
         data.voteAverage,
-        MovieDetails(Provider.of<DetailedMovies>(context, listen: false),
-            Provider.of<DetailedMovies>(context), data.id));
+      ),
+    );
   }
 }
 
@@ -67,11 +70,14 @@ class TvsListView extends DataListView {
 
   @override
   Widget makeCard(data, context) {
-    return WorkCard(
+    return GestureDetector(
+      onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context)=>TVDetails(Provider.of<DetailedTvs>(context, listen: false),
+          Provider.of<DetailedTvs>(context), data.id,"tv"))),
+      child: WorkCard(
         data.image,
         data.name,
         data.voteAverage,
-        TVDetails(Provider.of<DetailedTvs>(context, listen: false),
-            Provider.of<DetailedTvs>(context), data.id));
+      ),
+    );
   }
 }

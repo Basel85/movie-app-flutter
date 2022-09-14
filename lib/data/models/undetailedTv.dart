@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:movie_app/mixins/pageLoading.dart';
 import 'package:movie_app/constants.dart';
-import '../apis/api.dart';
-import 'dart:convert';
+
 class UnDetailedTv {
   late int id;
   late String name;

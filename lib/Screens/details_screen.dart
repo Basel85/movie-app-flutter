@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/Widgets/dataListView/castListView.dart';
 import 'package:movie_app/Widgets/dataListView/seasonListView.dart';
-import 'package:movie_app/Widgets/dataSection.dart';
-import 'package:movie_app/Widgets/dataListView/dataListView.dart';
 import 'package:movie_app/Widgets/image/imageDesign.dart';
 import 'package:movie_app/Widgets/loading.dart';
-import 'package:movie_app/data/models/undetailedMovie.dart';
-import 'package:provider/provider.dart';
-import '../data/models/undetailedTv.dart';
+import '../mixins/Data.dart';
+import '../mixins/pageLoading.dart';
 
-abstract class Details extends StatefulWidget {
+abstract class Details extends StatefulWidget with Data {
   final providerWithNoListening;
   final providerWithListening;
   final id;
+  final type;
   List<String> Categories = [];
 
-  Details(this.providerWithNoListening, this.providerWithListening,this.id);
+  Details(this.providerWithNoListening, this.providerWithListening,this.id,this.type);
 
   Widget buildImageSection();
 
@@ -31,7 +29,7 @@ abstract class Details extends StatefulWidget {
         height: 8,
       ),
       Text(
-        providerWithListening.detailedData.overview,
+        detailedData.overview,
         style: Theme.of(context).textTheme.bodyText1,
       ),
     ]);
@@ -43,17 +41,22 @@ abstract class Details extends StatefulWidget {
   State<Details> createState() => _DetailsState();
 }
 
-class _DetailsState extends State<Details> {
+class _DetailsState extends State<Details> with PageLoading {
   @override
   void initState() {
-    widget.providerWithNoListening.fetch(widget.id);
+    widget.providerWithNoListening.fetch(widget.type,widget.id).then((_){
+      is_Loading=false;
+      print("NNNN");
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    widget.detailedData = widget.providerWithListening.detailedData;
+    print(widget.detailedData);
     return Scaffold(
-      body: widget.providerWithListening.is_Loading
+      body: is_Loading
           ? Loading()
           : ListView(
               children: [
@@ -66,13 +69,15 @@ class _DetailsState extends State<Details> {
 }
 
 class MovieDetails extends Details {
-  MovieDetails(super.providerWithNoListening, super.providerWithListening,super.id);
+  MovieDetails(super.providerWithNoListening, super.providerWithListening, super.id, super.type);
+
+
 
   Widget buildImageSection() {
     return Container(
       height: 400,
       child: MovieImageEditing(
-          super.providerWithListening.detailedData, Categories),
+          detailedData, Categories),
     );
   }
 
@@ -94,7 +99,7 @@ class MovieDetails extends Details {
         const SizedBox(
           height: 24,
         ),
-        CastListView(super.providerWithListening.detailedData.id, "movie"),
+        CastListView(detailedData.id, "movie"),
         // buildSimilarSection(context)
       ]),
     );
@@ -102,13 +107,15 @@ class MovieDetails extends Details {
 }
 
 class TVDetails extends Details {
-  TVDetails(super.providerWithNoListening, super.providerWithListening,super.id);
+  TVDetails(super.providerWithNoListening, super.providerWithListening, super.id, super.type);
+
+
 
   Widget buildImageSection() {
     return Container(
       height: 400,
       child:
-          TvImageEditing(super.providerWithListening.detailedData, Categories),
+          TvImageEditing(detailedData, Categories),
     );
   }
 
@@ -130,7 +137,7 @@ class TVDetails extends Details {
         const SizedBox(
           height: 24,
         ),
-        SeasonListView(super.providerWithListening.detailedData.seasons),
+        SeasonListView(detailedData.id,detailedData.seasons),
         // buildSimilarSection(context)
       ]),
     );

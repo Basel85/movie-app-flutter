@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:movie_app/mixins/pageLoading.dart';
 import 'package:movie_app/constants.dart';
-import 'package:movie_app/data/apis/api.dart';
-import 'dart:convert';
 
 class DetailedMovie {
   late int id;
@@ -24,23 +20,5 @@ class DetailedMovie {
     releaseDate = json["release_date"];
     genres = json["genres"];
     overview = json["overview"];
-  }
-}
-
-class DetailedMovies with ChangeNotifier, PageLoading {
-  DetailedMovie detailedData = DetailedMovie("", "", 0, 0.0, "", [], "");
-
-  Future<void>? reset() {
-    detailedData = DetailedMovie("", "", 0, 0.0, "", [], "");
-    is_Loading = true;
-    notifyListeners();
-  }
-
-  Future<void> fetch(id) async {
-    final data = await Api().getData("/movie/$id?api_key=");
-    final result = json.decode(data) as Map<String, dynamic>;
-    detailedData = DetailedMovie.fromJson(result);
-    is_Loading = false;
-    notifyListeners();
   }
 }
