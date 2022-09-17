@@ -1,4 +1,4 @@
 class Data{
-  late List<dynamic> undetailedData;
-  dynamic detailedData;
+  List<dynamic> undetailedData=[];
+  late dynamic detailedData;
 }

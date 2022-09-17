@@ -1,30 +1,26 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import '../data/apis/api.dart';
 import '../data/models/detailedMovie.dart';
 import '../data/models/detailedTv.dart';
 
-abstract class DetailedData with ChangeNotifier{
-  dynamic detailedData;
-  void getData(Map<String, dynamic> result);
-  Future<void> fetch(type,id) async {
-    final data = await Api().getData("/$type/$id?api_key=");
+class DetailedData{
+  static void getData(Map<String, dynamic> result){}
+  static Future<dynamic> fetch(id,type) async {
+    final data = await Api.getData("/$type/$id?api_key=");
     final result = json.decode(data) as Map<String, dynamic>;
-    getData(result);
-    notifyListeners();
+    return result;
   }
 }
-class DetailedMovies extends DetailedData{
-  @override
-  void getData(Map<String, dynamic> result) {
-    detailedData = DetailedMovie.fromJson(result);
+class DetailedMovies{
+  static Future<dynamic> fetch(id,type) async {
+    final result = await DetailedData.fetch(id, type) as Map<String,dynamic>;
+    return DetailedMovie.fromJson(result);
   }
-
 }
 class DetailedTvs extends DetailedData{
-  @override
-  void getData(Map<String, dynamic> result) {
-    detailedData = DetailedTv.fromJson(result);
+  static Future<dynamic> fetch(id,type) async {
+    final result = await DetailedData.fetch(id, type) as Map<String,dynamic>;
+    return DetailedTv.fromJson(result);
   }
 }

@@ -1,20 +1,33 @@
-import 'package:flutter/material.dart';
 import 'package:movie_app/data/apis/api.dart';
 import 'dart:convert';
 
-abstract class UnDetailedData with ChangeNotifier {
-  List<dynamic> dataList = [];
-  void getData(Map<String, dynamic> result);
-  Future<void> fetch(type,category, [id]) async {
+import '../data/models/undetailedMovie.dart';
+import '../data/models/undetailedTv.dart';
+
+abstract class UnDetailedData{
+  static Future<dynamic> fetch(type,category, [id]) async {
     String idUrlSegment = "";
     if (id != null) {
       idUrlSegment = "$id/";
     }
-    print(idUrlSegment);
-    final data = await Api().getData("/$type/$idUrlSegment$category?api_key=");
+    final data = await Api.getData("/$type/$idUrlSegment$category?api_key=");
     final result = json.decode(data) as Map<String, dynamic>;
-    getData(result);
-    notifyListeners();
+    return result;
   }
 }
+class UnDetailedMovies{
+  static Future<dynamic> fetch(type,category, [id]) async {
+    final result = await UnDetailedData.fetch(type, category,id) as Map<String,dynamic>;
+    return result["results"]
+        .map((md) => UnDetailedMovie.fromJson(md))
+        .toList();
+  }
+}
+class UnDetailedTvs{
+  static Future<dynamic> fetch(type,category, [id]) async {
+    final result = await UnDetailedData.fetch(type, category,id) as Map<String,dynamic>;
+    return result["results"].map((md) => UnDetailedTv.fromJson(md)).toList();
+  }
+}
+
 

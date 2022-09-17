@@ -6,7 +6,7 @@ import 'dart:convert';
 
 class UnDetailedMovie {
   late int id;
-  late String title;
+  late String? title;
   late String? image;
   late int voteCount;
   late double voteAverage;

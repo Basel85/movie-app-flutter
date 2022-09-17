@@ -2,7 +2,7 @@ import 'package:movie_app/constants.dart';
 
 class UnDetailedTv {
   late int id;
-  late String name;
+  late String? name;
   late String? image;
   late int voteCount;
   late double voteAverage;

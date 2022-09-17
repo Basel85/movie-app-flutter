@@ -5,7 +5,7 @@ import '../../noImage.dart';
 
 abstract class ImageEditing extends StatelessWidget {
   final _data;
-  final _Categories;
+  final _categories;
   Widget buildInfoInsideImage();
   Widget buildImageDesign(context) {
     return Stack(
@@ -47,7 +47,7 @@ abstract class ImageEditing extends StatelessWidget {
       ],
     );
   }
-  ImageEditing(this._data, this._Categories);
+  ImageEditing(this._data, this._categories);
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class MovieImageEditing extends ImageEditing {
   Widget buildInfoInsideImage() {
     return InfoInsideImage(
         _data.title,
-        "${_data.releaseDate} • $_Categories",
+        "${_data.releaseDate} • $_categories",
         _data.voteAverage,
         _data.voteCount);
   }
@@ -118,7 +118,7 @@ class TvImageEditing extends ImageEditing {
   Widget buildInfoInsideImage() {
     return InfoInsideImage(
         _data.name,
-        "${_data.firstAirDate} • $_Categories • ${_data.seasons.length} ${_data.seasons.length == 1 ? "season" : "seasons"}",
+        "${_data.firstAirDate} • $_categories • ${_data.seasons.length} ${_data.seasons.length == 1 ? "season" : "seasons"}",
         _data.voteAverage,
         _data.voteCount);
   }
@@ -136,7 +136,7 @@ class CarouselImageEditing extends ImageEditing{
   Widget buildInfoInsideImage() {
     return InfoInsideImage(
         _data.title,
-        "$_Categories",
+        "$_categories",
         _data.voteAverage,
         _data.voteCount);
   }

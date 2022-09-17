@@ -5,28 +5,30 @@ import 'package:movie_app/Widgets/loading.dart';
 import 'package:provider/provider.dart';
 import '../../providers/casts_provider.dart';
 
-class CastListView extends StatefulWidget with PageLoading {
-  final _id;
-  final _type;
-  CastListView(this._id, this._type);
+class CastListView extends StatefulWidget {
+  final Future<dynamic> fetch;
+  CastListView(this.fetch);
 
   @override
   State<CastListView> createState() => _CastListViewState();
 }
 
 class _CastListViewState extends State<CastListView> with PageLoading {
-
+  List<dynamic> casts = [];
   @override
   void initState() {
-    Provider.of<Casts>(context,listen : false).fetch(widget._id,widget._type).then((casts){
-      is_Loading = false;
+    widget.fetch.then((value){
+      setState(() {
+        casts = value;
+        isLoading = false;
+      });
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> casts = Provider.of<Casts>(context).casts;
+
     return Container(
       margin: const EdgeInsets.only(left: 24,top: 24),
       child: Column(
@@ -39,7 +41,7 @@ class _CastListViewState extends State<CastListView> with PageLoading {
           const SizedBox(
             height: 16,
           ),
-          is_Loading
+          isLoading
               ? Loading()
               : casts.isEmpty
                   ? Container(

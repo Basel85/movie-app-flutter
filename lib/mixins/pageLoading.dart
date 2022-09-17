@@ -1,3 +1,3 @@
 class PageLoading{
-  bool is_Loading = true;
+  bool isLoading = true;
 }

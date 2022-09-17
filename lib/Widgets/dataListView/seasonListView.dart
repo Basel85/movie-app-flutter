@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/Screens/episodes_screen.dart';
 import 'package:movie_app/constants.dart';
 import 'package:movie_app/noImage.dart';
+import 'package:movie_app/providers/episodes_provider.dart';
 
 class SeasonListView extends StatelessWidget {
   final tvId;
@@ -24,7 +25,7 @@ class SeasonListView extends StatelessWidget {
             children: List.generate(
                 seasons.length,
                     (index) => GestureDetector(
-                  onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>EpisodesList(tvId,seasons[index]["season_number"],seasons[index]["name"]))),
+                  onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>EpisodesList(Episodes.fetch(tvId,seasons[index]["season_number"]),seasons[index]["name"]))),
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     padding: EdgeInsets.zero,

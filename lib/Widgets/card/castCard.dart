@@ -19,7 +19,6 @@ class CastCard extends StatelessWidget {
         itemCount: _castCount,
         itemBuilder: (context, index) {
           return Container(
-            color: Colors.green,
             margin: const EdgeInsets.only(right: 24),
             width: 140,
             padding: EdgeInsets.zero,
