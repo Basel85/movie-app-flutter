@@ -10,4 +10,12 @@ class Api {
       throw "error";
     }
   }
+  static Future<dynamic> getQueryData(type,name) async{
+    reponse = await http.get(Uri.parse("$apiDomain/search/$type?api_key=$apiKey&query=$name"));
+    if (reponse.statusCode == 200) {
+      return reponse.body;
+    } else {
+      throw "error";
+    }
+  }
 }

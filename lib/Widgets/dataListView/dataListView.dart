@@ -32,7 +32,7 @@ class _DataListViewState extends State<DataListView> with Data,PageLoading {
     return isLoading
         ? Loading()
         : Container(
-            height: 300,
+            height: 258,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: undetailedData.length,
@@ -58,10 +58,18 @@ class MoviesListView extends DataListView {
     return GestureDetector(
       onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => MovieDetails(
           DetailedMovies.fetch(data.id,"movie")))),
-      child: WorkCard(
-        data.image,
-        data.title,
-        data.voteAverage,
+      child: Container(
+        width: 140,
+        height: 258,
+        decoration: const BoxDecoration(
+          color: Colors.green,
+        ),
+        margin: const EdgeInsets.only(left: 24),
+        child: WorkCard(
+          data.image,
+          data.title,
+          data.voteAverage,
+        ),
       ),
     );
   }
@@ -74,10 +82,15 @@ class TvsListView extends DataListView {
   Widget makeCard(data, context) {
     return GestureDetector(
       onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context)=>TVDetails(DetailedTvs.fetch(data.id,"tv")))),
-      child: WorkCard(
-        data.image,
-        data.name,
-        data.voteAverage,
+      child: Container(
+        width: 140,
+        height: 300,
+        margin: const EdgeInsets.only(left: 24),
+        child: WorkCard(
+          data.image,
+          data.name,
+          data.voteAverage,
+        ),
       ),
     );
   }

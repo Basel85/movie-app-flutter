@@ -9,27 +9,30 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: SafeArea(
         child: ListView(
           children: [
             UpcomingData(UnDetailedMovies.fetch("movie", "upcoming",null)),
-            Container(
-              padding: const EdgeInsets.only(left: 8),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DataSection("Now Playing",MoviesListView(UnDetailedMovies.fetch("movie","now_playing",null))),
-                    DataSection("On TV", TvsListView(UnDetailedTvs.fetch("tv","popular",null))),
-                    DataSection("Popular Movies", MoviesListView(UnDetailedMovies.fetch("movie","popular",null))),
-                  ]),
-            )
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DataSection("Now Playing",MoviesListView(UnDetailedMovies.fetch("movie","now_playing",null))),
+                  DataSection("On TV", TvsListView(UnDetailedTvs.fetch("tv","popular",null))),
+                  DataSection("Popular Movies", MoviesListView(UnDetailedMovies.fetch("movie","popular",null))),
+                ])
           ],
         ),
       ),
+
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

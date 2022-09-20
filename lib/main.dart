@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_app/Screens/homePage_screen.dart';
+import 'package:movie_app/providers/searchMovies_provider.dart';
+import 'package:provider/provider.dart';
+import 'Screens/homePage_screen.dart';
+import 'Screens/search_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp( MultiProvider(providers: [
+    ChangeNotifierProvider<MoviesSearch>(create: (_)=>MoviesSearch())
+  ],child: const MyApp(),));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int currentIndex=0;
   @override
   Widget build(BuildContext context) {
+    final List<Widget> bottomNavigationBarItemScreens = [MyHomePage(),Search()];
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -62,7 +76,29 @@ class MyApp extends StatelessWidget {
                   color: Color(0xff1a1d1f)),
             ),
           )),
-      home: MyHomePage(),
+      home:Scaffold(
+        body: IndexedStack(
+          index: currentIndex,
+          children: bottomNavigationBarItemScreens,
+
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (index){
+            setState(() {
+              currentIndex=index;
+            });
+          },
+          showSelectedLabels: true,
+          showUnselectedLabels: false,
+          currentIndex: currentIndex,
+          backgroundColor: Colors.white,
+          selectedItemColor: const Color(0xffef322c),
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home_filled),label: "Home"),
+            BottomNavigationBarItem(icon: Icon(Icons.search,),label: "Search")
+          ],
+        ),
+      ),
     );
   }
 }
