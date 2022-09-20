@@ -9,7 +9,7 @@ import '../../providers/detailedData_provider.dart';
 abstract class DataListView extends StatefulWidget {
   final Future<dynamic> fetch;
   Widget makeCard(data, context);
-  DataListView(this.fetch);
+  const DataListView(this.fetch);
   @override
   _DataListViewState createState() => _DataListViewState();
 }
@@ -32,7 +32,7 @@ class _DataListViewState extends State<DataListView> with Data,PageLoading {
     return isLoading
         ? Loading()
         : Container(
-            height: 258,
+            height: 259,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: undetailedData.length,
@@ -60,10 +60,10 @@ class MoviesListView extends DataListView {
           DetailedMovies.fetch(data.id,"movie")))),
       child: Container(
         width: 140,
-        height: 258,
-        decoration: const BoxDecoration(
-          color: Colors.green,
-        ),
+        height: 259,
+        // decoration: const BoxDecoration(
+        //   color: Colors.green,
+        // ),
         margin: const EdgeInsets.only(left: 24),
         child: WorkCard(
           data.image,
@@ -84,7 +84,7 @@ class TvsListView extends DataListView {
       onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context)=>TVDetails(DetailedTvs.fetch(data.id,"tv")))),
       child: Container(
         width: 140,
-        height: 300,
+        height: 259,
         margin: const EdgeInsets.only(left: 24),
         child: WorkCard(
           data.image,

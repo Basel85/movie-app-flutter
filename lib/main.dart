@@ -19,7 +19,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late PageController _pageController;
   int currentIndex=0;
+  @override
+  void initState() {
+    _pageController = PageController();
+    super.initState();
+  }
+  void onItemTapped(currentIndex){
+    _pageController.jumpToPage(currentIndex);
+  }
+  void onPageChanged(index){
+    setState(() {
+      currentIndex=index;
+    });
+  }
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final List<Widget> bottomNavigationBarItemScreens = [MyHomePage(),Search()];
@@ -77,17 +96,14 @@ class _MyAppState extends State<MyApp> {
             ),
           )),
       home:Scaffold(
-        body: IndexedStack(
-          index: currentIndex,
+        body: PageView(
+          onPageChanged: onPageChanged,
+          controller: _pageController,
           children: bottomNavigationBarItemScreens,
 
         ),
         bottomNavigationBar: BottomNavigationBar(
-          onTap: (index){
-            setState(() {
-              currentIndex=index;
-            });
-          },
+          onTap: onItemTapped,
           showSelectedLabels: true,
           showUnselectedLabels: false,
           currentIndex: currentIndex,

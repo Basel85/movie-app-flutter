@@ -15,8 +15,8 @@ class DataGridView extends StatelessWidget {
       gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
         mainAxisSpacing: 16,
         crossAxisSpacing: 24,
-        maxCrossAxisExtent: 140,
-        childAspectRatio: 0.5,
+        maxCrossAxisExtent: 150,
+        childAspectRatio: 0.51
       ),
       primary: true,
       children: List.generate(

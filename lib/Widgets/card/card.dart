@@ -17,11 +17,11 @@ class WorkCard extends StatelessWidget {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: _imageUrl==null?NoImage():Image.network(
-                _imageUrl,
+                _imageUrl,fit: BoxFit.cover,
               )),
         ),
         Text(_title,
-          style: Theme.of(context).textTheme.subtitle2,overflow: TextOverflow.ellipsis,),
+          style: Theme.of(context).textTheme.subtitle2,overflow: TextOverflow.ellipsis,maxLines: 1,),
         Row(
           children: [
             Expanded(

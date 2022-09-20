@@ -10,24 +10,26 @@ class Search extends StatefulWidget {
   State<Search> createState() => _SearchState();
 }
 
-class _SearchState extends State<Search>{
+class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin{
   late TextEditingController _textEditingController;
 
   @override
   void initState() {
+    print("HIss");
     _textEditingController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
+    print("LOLOLO");
     _textEditingController.clear();
     super.dispose();
   }
-
+  String prev = "";
   @override
   Widget build(BuildContext context) {
-    String prev = "";
+    // print(prev);
     return Scaffold(
       body: SafeArea(
           child: Container(
@@ -35,7 +37,6 @@ class _SearchState extends State<Search>{
         child: Column(
           children: [
             TextFormField(
-              controller: _textEditingController,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
@@ -50,15 +51,16 @@ class _SearchState extends State<Search>{
               onChanged: (value) {
                 if(value.trim()!=prev.trim()){
                   prev = value;
-                  Provider.of<MoviesSearch>(context, listen: false)
-                      .reset(value.trim());
+                  print(prev);
+                  Provider.of<MoviesSearch>(context,listen: false).reset(value.trim());
                 }
               },
             ),
-            Consumer<MoviesSearch>(
-              builder: (context, moviesSearch, _) {
+            Selector<MoviesSearch,String>(
+              selector: (context,ms)=>ms.name,
+              builder: (context, name, _) {
                 return Expanded(
-                    child: moviesSearch.name.isEmpty
+                    child: name.isEmpty
                         ? Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -84,8 +86,7 @@ class _SearchState extends State<Search>{
                                     listen: false)
                                 .fetch("movie"),
                             builder: (context, snapShot) {
-                              if (snapShot.connectionState ==
-                                  ConnectionState.waiting) {
+                              if (snapShot.connectionState == ConnectionState.waiting) {
                                 return Loading();
                               }
                               return Column(
@@ -103,4 +104,8 @@ class _SearchState extends State<Search>{
       )),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

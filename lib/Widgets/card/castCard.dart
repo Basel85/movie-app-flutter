@@ -12,8 +12,8 @@ class CastCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 260,
-      padding: EdgeInsets.zero,
-      margin: EdgeInsets.only(bottom: 16),
+      // padding: EdgeInsets.zero,
+      margin: const EdgeInsets.only(bottom: 16),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: _castCount,
@@ -26,7 +26,6 @@ class CastCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  height: 210,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: _data[index].profileImage==null?NoImage():Image.network(imageDomain +

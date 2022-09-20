@@ -10,6 +10,7 @@ class MoviesSearch with ChangeNotifier{
     notifyListeners();
   }
   Future<dynamic> fetch(type) async{
+    print("Hi");
     final data = await Api.getQueryData(type, name);
     final result  = json.decode(data) as Map<String,dynamic>;
     return result["results"].map((md)=>UnDetailedMovie.fromJson(md)).toList();
