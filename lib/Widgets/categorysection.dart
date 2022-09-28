@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/Widgets/dataListView/dataListView.dart';
+
  class DataSection extends StatelessWidget {
   late String  categoryName;
-  late dynamic  dataDisplaying;
-  DataSection(name, obj){
+  late dynamic  categoryFutureBuilder;
+  DataSection(name, obj, {super.key}){
     categoryName=name;
-    dataDisplaying = obj;
+    categoryFutureBuilder = obj;
   }
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ import 'package:movie_app/Widgets/dataListView/dataListView.dart';
             ],
           ),
         ),
-        dataDisplaying,
+        categoryFutureBuilder,
       ],
     );
   }

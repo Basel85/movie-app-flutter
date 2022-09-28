@@ -1,8 +1,8 @@
 import 'package:movie_app/data/apis/api.dart';
 import 'dart:convert';
 
-import '../data/models/undetailedMovie.dart';
-import '../data/models/undetailedTv.dart';
+import '../data/models/undetailedmovie_model.dart';
+import '../data/models/undetailedtv_model.dart';
 
 abstract class UnDetailedData{
   static Future<dynamic> fetch(type,category, [id]) async {

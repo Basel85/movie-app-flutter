@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/constants.dart';
-import '../../noImage.dart';
+import '../noimage.dart';
 
 class CastCard extends StatelessWidget {
   final _castCount;

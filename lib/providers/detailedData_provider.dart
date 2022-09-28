@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import '../data/apis/api.dart';
-import '../data/models/detailedMovie.dart';
-import '../data/models/detailedTv.dart';
+import '../data/models/detailedmovie_model.dart';
+import '../data/models/detailedtv_model.dart';
 
 class DetailedData{
   static void getData(Map<String, dynamic> result){}

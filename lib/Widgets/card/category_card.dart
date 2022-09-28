@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/noImage.dart';
+import 'package:movie_app/Widgets/noimage.dart';
 
-class WorkCard extends StatelessWidget {
+class CategoryCard extends StatelessWidget {
   final _imageUrl;
   final _title;
   final _vote_average;
-  WorkCard(this._imageUrl,this._title,this._vote_average);
+  const CategoryCard(this._imageUrl,this._title,this._vote_average, {super.key});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -13,13 +13,11 @@ class WorkCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: _imageUrl==null?NoImage():Image.network(
-                _imageUrl,fit: BoxFit.cover,
-              )),
-        ),
+        ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: _imageUrl==null?const NoImage():Image.network(
+              _imageUrl,fit: BoxFit.cover,
+            )),
         Text(_title,
           style: Theme.of(context).textTheme.subtitle2,overflow: TextOverflow.ellipsis,maxLines: 1,),
         Row(
@@ -30,12 +28,12 @@ class WorkCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
-            Icon(
+            const Icon(
               Icons.star,
               color: Colors.yellow,
             ),
             Text(
-              "${_vote_average}",
+              "$_vote_average",
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ],

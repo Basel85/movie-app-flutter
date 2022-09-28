@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/Widgets/image/infoInsideImage.dart';
-
-import '../../noImage.dart';
+import '../noimage.dart';
 
 abstract class ImageEditing extends StatelessWidget {
   final _data;
@@ -25,7 +24,7 @@ abstract class ImageEditing extends StatelessWidget {
             child : _data.image!=null?null:NoImage()
         ),
         Align(
-          alignment: AlignmentDirectional(0, 1),
+          alignment: const AlignmentDirectional(0, 1),
           child: Container(
             width: double.infinity,
             height: 200,
@@ -36,9 +35,9 @@ abstract class ImageEditing extends StatelessWidget {
                   Colors.transparent,
                   Theme.of(context).colorScheme.background
                 ],
-                stops: [0, 1],
-                begin: AlignmentDirectional(0, -1),
-                end: AlignmentDirectional(0, 1),
+                stops: const [0, 1],
+                begin: const AlignmentDirectional(0, -1),
+                end: const AlignmentDirectional(0, 1),
               ),
             ),
             child: buildInfoInsideImage(),

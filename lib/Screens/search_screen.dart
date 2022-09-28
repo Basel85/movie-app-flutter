@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/Widgets/loading.dart';
+import 'package:movie_app/Widgets/noData.dart';
+import 'package:movie_app/mixins/data.dart';
 import 'package:movie_app/providers/searchMovies_provider.dart';
 import 'package:provider/provider.dart';
-
-import '../Widgets/dataGridView/dataGridView.dart';
+import '../Widgets/GridView/category_gridview.dart';
 
 class Search extends StatefulWidget {
   @override
   State<Search> createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin{
+class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
   late TextEditingController _textEditingController;
 
   @override
   void initState() {
-    print("HIss");
     _textEditingController = TextEditingController();
     super.initState();
   }
-
+  
   @override
   void dispose() {
-    print("LOLOLO");
     _textEditingController.clear();
     super.dispose();
   }
+
   String prev = "";
+  List<dynamic> searchData = [];
+
   @override
   Widget build(BuildContext context) {
-    // print(prev);
+    super.build(context);
+    print("y");
     return Scaffold(
       body: SafeArea(
           child: Container(
@@ -49,15 +52,14 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin{
                     borderRadius: BorderRadius.circular(8),
                   )),
               onChanged: (value) {
-                if(value.trim()!=prev.trim()){
-                  prev = value;
-                  print(prev);
-                  Provider.of<MoviesSearch>(context,listen: false).reset(value.trim());
+                if (value.trim() != prev.trim()) {
+                  Provider.of<MoviesSearch>(context, listen: false)
+                      .reset(value.trim());
                 }
               },
             ),
-            Selector<MoviesSearch,String>(
-              selector: (context,ms)=>ms.name,
+            Selector<MoviesSearch, String>(
+              selector: (context, ms) => ms.name,
               builder: (context, name, _) {
                 return Expanded(
                     child: name.isEmpty
@@ -81,22 +83,40 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin{
                               ],
                             ),
                           )
-                        : FutureBuilder(
-                            future: Provider.of<MoviesSearch>(context,
-                                    listen: false)
-                                .fetch("movie"),
-                            builder: (context, snapShot) {
-                              if (snapShot.connectionState == ConnectionState.waiting) {
-                                return Loading();
-                              }
-                              return Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children:[
-                                    const SizedBox(height: 24,),
-                                    Expanded(child: DataGridView(snapShot.data))
-                                  ] );
-                            }));
+                        : prev != name
+                            ? FutureBuilder(
+                                future: Provider.of<MoviesSearch>(context,
+                                        listen: false)
+                                    .fetch("movie"),
+                                builder: (context, snapShot) {
+                                  if (snapShot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Loading();
+                                  }
+                                  searchData = snapShot.data as List<dynamic>;
+                                  prev = name;
+                                  return Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 24,
+                                        ),
+                                        Expanded(
+                                            child: searchData.isEmpty?const NoDetails():DataGridView(snapShot.data))
+                                      ]);
+                                })
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                    const SizedBox(
+                                      height: 24,
+                                    ),
+                                    Expanded(child: searchData.isEmpty?const NoDetails():DataGridView(searchData))
+                                  ]));
               },
             )
           ],
@@ -106,6 +126,5 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin{
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

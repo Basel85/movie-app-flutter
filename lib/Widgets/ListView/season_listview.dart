@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/Screens/episodes_screen.dart';
 import 'package:movie_app/constants.dart';
-import 'package:movie_app/noImage.dart';
+import 'package:movie_app/Widgets/noimage.dart';
 import 'package:movie_app/providers/episodes_provider.dart';
 
 class SeasonListView extends StatelessWidget {
   final tvId;
   final seasons;
-  SeasonListView(this.tvId,this.seasons);
+  const SeasonListView(this.tvId,this.seasons, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 24,top: 24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Seasons",style: Theme.of(context).textTheme.subtitle2,),
-          const SizedBox(height: 16,),
-          Column(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(margin: const EdgeInsets.only(left: 24,top: 24),child: Text("Seasons",style: Theme.of(context).textTheme.subtitle2,)),
+        const SizedBox(height: 16,),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
@@ -32,11 +32,11 @@ class SeasonListView extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
+                        SizedBox(
                             height: 210,
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: seasons[index]["poster_path"]==null? Container(width: 140,child: NoImage()):Image.network(
+                                child: seasons[index]["poster_path"]==null? SizedBox(width: 140,child: NoImage()):Image.network(
                                   imageDomain +
                                       seasons[index]["poster_path"],
                                 ))),
@@ -56,32 +56,26 @@ class SeasonListView extends StatelessWidget {
                                 Text(
                                     "${seasons[index]["episode_count"]} ${seasons[index]["episode_count"] == 1 ? "episode" : "episodes"}",
                                     style: Theme.of(context).textTheme.bodyText1),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8,
                                 ),
-                                Container(
-                                    child: Text(
-                                      seasons[index]["overview"],
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 7,
-                                      style: Theme.of(context).textTheme.bodyText1,
-                                    )),
+                                Text(
+                                  seasons[index]["overview"],
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 7,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
                               ],
                             ),
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: Text(">",
-                              style: Theme.of(context).textTheme.bodyText1),
-                        )
                       ],
                     ),
                   ),
                 )),
-          )
-        ]
-      ),
+          ),
+        )
+      ]
     );
   }
 }

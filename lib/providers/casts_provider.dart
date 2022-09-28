@@ -1,5 +1,5 @@
 import '../data/apis/api.dart';
-import '../data/models/cast.dart';
+import '../data/models/cast_model.dart';
 import 'dart:convert';
 
 class Casts {
