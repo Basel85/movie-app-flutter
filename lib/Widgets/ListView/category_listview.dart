@@ -24,7 +24,7 @@ class MoviesCategoryListView extends CategoryListView {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              MovieDetails(DetailedMovies.fetch(data.id, "movie")))),
+              MovieDetailsScreen(DetailedMovies.fetch(data.id, "movie")))),
       child: Container(
         width: 140,
         height: 259,
@@ -45,7 +45,7 @@ class TvsCategoryListView extends CategoryListView {
   Widget buildCard(data, context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => TVDetails(DetailedTvs.fetch(data.id, "tv")))),
+          builder: (context) => TVDetailsScreen(DetailedTvs.fetch(data.id, "tv")))),
       child: Container(
         width: 140,
         height: 259,

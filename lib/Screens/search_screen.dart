@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/Widgets/loading.dart';
 import 'package:movie_app/Widgets/noData.dart';
-import 'package:movie_app/mixins/data.dart';
 import 'package:movie_app/providers/searchMovies_provider.dart';
 import 'package:provider/provider.dart';
 import '../Widgets/GridView/category_gridview.dart';
 
-class Search extends StatefulWidget {
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
   @override
-  State<Search> createState() => _SearchState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
+class _SearchScreenState extends State<SearchScreen> with AutomaticKeepAliveClientMixin {
   late TextEditingController _textEditingController;
 
   @override
@@ -25,14 +26,13 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
     _textEditingController.clear();
     super.dispose();
   }
-
+  
   String prev = "";
   List<dynamic> searchData = [];
-
+  
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    print("y");
     return Scaffold(
       body: SafeArea(
           child: Container(

@@ -63,8 +63,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> bottomNavigationBarItemScreens = [
-      const MyHomePage(),
-      Search()
+      const HomePageScreen(),
+      SearchScreen()
     ];
     return Consumer<Mode>(
       builder: (context, mode, _) {

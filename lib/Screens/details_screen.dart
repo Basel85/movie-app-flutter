@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/Widgets/ListView/cast_listview.dart';
 import 'package:movie_app/Widgets/ListView/season_listview.dart';
-import 'package:movie_app/Widgets/image/imageDesign.dart';
+import 'package:movie_app/Widgets/stack/imagedesign_stack.dart';
 import 'package:movie_app/Widgets/loading.dart';
 import '../Widgets/futureBuilder/category_futurebuilder.dart';
 import '../Widgets/categorysection.dart';
@@ -9,10 +9,10 @@ import '../mixins/data.dart';
 import '../providers/casts_provider.dart';
 import '../providers/undetailedData_provider.dart';
 
-abstract class Details extends StatelessWidget with Data {
+abstract class DetailsScreen extends StatelessWidget with Data {
   final Future<dynamic> fetch;
   List<String> genres = [];
-  Details(this.fetch, {super.key});
+  DetailsScreen(this.fetch, {super.key});
 
   Widget buildImageSection(detailedData);
 
@@ -36,7 +36,6 @@ abstract class Details extends StatelessWidget with Data {
 
   @override
   Widget build(BuildContext context) {
-    print("w");
     return Scaffold(
         body: FutureBuilder(
       builder: ((context, snapshot) {
@@ -60,14 +59,14 @@ abstract class Details extends StatelessWidget with Data {
   }
 }
 
-class MovieDetails extends Details {
-  MovieDetails(super.fetch, {super.key});
+class MovieDetailsScreen extends DetailsScreen {
+  MovieDetailsScreen(super.fetch, {super.key});
 
   @override
   Widget buildImageSection(detailedData) {
     return SizedBox(
       height: 400,
-      child: MovieImageEditing(detailedData, genres),
+      child: MovieImageEditingStack(detailedData, genres),
     );
   }
 
@@ -91,14 +90,14 @@ class MovieDetails extends Details {
   }
 }
 
-class TVDetails extends Details {
-  TVDetails(super.fetch, {super.key});
+class TVDetailsScreen extends DetailsScreen {
+  TVDetailsScreen(super.fetch, {super.key});
 
   @override
   Widget buildImageSection(detailedData) {
     return SizedBox(
       height: 400,
-      child: TvImageEditing(detailedData, genres),
+      child: TvImageEditingStack(detailedData, genres),
     );
   }
 

@@ -9,14 +9,14 @@ import '../statics/static.dart';
 
 
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class HomePageScreen extends StatefulWidget {
+  const HomePageScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePageScreen> createState() => _HomePageScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage>
+class _HomePageScreenState extends State<HomePageScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {

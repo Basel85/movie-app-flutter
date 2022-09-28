@@ -25,7 +25,7 @@ class SeasonListView extends StatelessWidget {
             children: List.generate(
                 seasons.length,
                     (index) => GestureDetector(
-                  onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>EpisodesList(Episodes.fetch(tvId,seasons[index]["season_number"]),seasons[index]["name"]))),
+                  onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>EpisodesScreen(Episodes.fetch(tvId,seasons[index]["season_number"]),seasons[index]["name"]))),
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     padding: EdgeInsets.zero,

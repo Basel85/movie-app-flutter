@@ -4,17 +4,17 @@ import 'package:movie_app/Widgets/loading.dart';
 import 'package:movie_app/Widgets/noData.dart';
 import 'package:movie_app/mixins/data.dart';
 
-abstract class CategoryFutureBuilder extends StatelessWidget {
+
+class MoviesCategoryFutureBuilder extends StatefulWidget {
   final Future<dynamic> fetch;
-  CategoryFutureBuilder(this.fetch, {super.key});
 
+  const MoviesCategoryFutureBuilder(this.fetch, {super.key});
   @override
-  Widget build(BuildContext context);
+  State<MoviesCategoryFutureBuilder> createState() => _MoviesCategoryFutureBuilderState();
 }
+class _MoviesCategoryFutureBuilderState extends State<MoviesCategoryFutureBuilder> with Data {
+  
 
-class MoviesCategoryFutureBuilder extends CategoryFutureBuilder {
-  MoviesCategoryFutureBuilder(super.fetch, {super.key});
-  List<dynamic> data = [];
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -22,23 +22,29 @@ class MoviesCategoryFutureBuilder extends CategoryFutureBuilder {
         if (snapShot.connectionState == ConnectionState.waiting) {
           return const Loading();
         }
-        data = snapShot.data as List<dynamic>;
-        return data.isEmpty
+        undetailedData = snapShot.data as List<dynamic>;
+        return undetailedData.isEmpty
             ? const NoDetails()
             : Container(
                 margin: const EdgeInsets.only(left: 24),
                 child: SizedBox(
-                    height: 259, child: MoviesCategoryListView(data)),
+                    height: 259, child: MoviesCategoryListView(undetailedData)),
               );
       },
-      future: data.isEmpty ? fetch : null,
+      future: undetailedData.isEmpty ? widget.fetch : null,
     );
   }
 }
 
-class TvsCategoryFutureBuilder extends CategoryFutureBuilder {
-  TvsCategoryFutureBuilder(super.fetch, {super.key});
-  List<dynamic> data = [];
+class TvsCategoryFutureBuilder extends StatefulWidget {
+  final Future<dynamic> fetch;
+
+  const TvsCategoryFutureBuilder(this.fetch, {super.key});
+  @override
+  State<TvsCategoryFutureBuilder> createState() => _TvsCategoryFutureBuilderState();
+}
+class _TvsCategoryFutureBuilderState extends State<TvsCategoryFutureBuilder> with Data {
+  
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -46,16 +52,16 @@ class TvsCategoryFutureBuilder extends CategoryFutureBuilder {
         if (snapShot.connectionState == ConnectionState.waiting) {
           return const Loading();
         }
-        data = snapShot.data as List<dynamic>;
-        return data.isEmpty
+        undetailedData = snapShot.data as List<dynamic>;
+        return undetailedData.isEmpty
             ? const NoDetails()
             : Container(
                 margin: const EdgeInsets.only(left: 24),
                 child: SizedBox(
-                    height: 259, child: TvsCategoryListView(data)),
+                    height: 259, child: TvsCategoryListView(undetailedData)),
               );
       },
-      future: data.isEmpty ? fetch : null,
+      future: undetailedData.isEmpty ? widget.fetch : null,
     );
   }
 }

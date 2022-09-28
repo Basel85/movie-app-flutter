@@ -25,7 +25,7 @@ class DataGridView extends StatelessWidget {
                 child: CategoryCard(_data[index].image, _data[index].title,
                     _data[index].voteAverage),
                 onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => MovieDetails(
+                    MaterialPageRoute(builder: (_) => MovieDetailsScreen(
                         DetailedMovies.fetch(_data[index].id,"movie")))),
               )),
     );
