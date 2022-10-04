@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_app/Widgets/loading.dart';
-import 'package:movie_app/providers/light&darkModeTheme_provider.dart';
-import 'package:movie_app/providers/searchMovies_provider.dart';
-import 'package:movie_app/statics/static.dart';
+import 'package:movie_app/ui/Widgets/loading.dart';
+import 'package:movie_app/providers/theme_mode_provider.dart';
+import 'package:movie_app/providers/movies_search_provider.dart';
+import 'package:movie_app/statics/theme_mode_static.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Screens/homePage_screen.dart';
-import 'Screens/search_screen.dart';
+import 'ui/Screens/home_page_screen.dart';
+import 'ui/Screens/search_screen.dart';
 
 Future<bool> getMode() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final List<Widget> bottomNavigationBarItemScreens = [
       const HomePageScreen(),
-      SearchScreen()
+      const SearchScreen()
     ];
     return Consumer<Mode>(
       builder: (context, mode, _) {

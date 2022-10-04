@@ -1,3 +1,3 @@
-class PageLoading{
+mixin PageLoading{
   bool isLoading = true;
 }
