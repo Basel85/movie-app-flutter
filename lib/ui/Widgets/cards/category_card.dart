@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/ui/Widgets/loading.dart';
+import 'package:movie_app/ui/Widgets/image_network.dart';
 import 'package:movie_app/ui/Widgets/noimage.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -21,16 +21,7 @@ class CategoryCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: _imageUrl == null
                   ? const NoImage()
-                  : Image.network(
-                      _imageUrl,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return const Loading();
-                      },
-                    )),
+                  : ImageNetwork(_imageUrl)),
         ),
         Text(
           _title,

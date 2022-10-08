@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/ui/Widgets/ListViews/cast_listview.dart';
 import 'package:movie_app/ui/Widgets/loading.dart';
 import 'package:movie_app/ui/Widgets/no_details.dart';
+import 'package:movie_app/ui/Widgets/reload.dart';
 
 class CastFetcher extends StatelessWidget {
   final Future<dynamic> fetch;
@@ -11,10 +12,14 @@ class CastFetcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("cast rebuilt");
     return FutureBuilder(
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Loading();
+        }
+        if (snapshot.hasError) {
+          return Reload(snapshot.error.toString());
         }
         actors = snapshot.data as List<dynamic>;
         return actors.isEmpty

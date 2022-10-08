@@ -60,12 +60,14 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final List<Widget> bottomNavigationBarItemScreens = [
+  final List<Widget> bottomNavigationBarItemScreens = [
       const HomePageScreen(),
       const SearchScreen()
-    ];
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    print("main built");
     return Consumer<Mode>(
       builder: (context, mode, _) {
         if (valueGot && !isRebuiltFromRoot) {

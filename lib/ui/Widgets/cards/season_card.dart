@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/constants.dart';
-import 'package:movie_app/ui/Widgets/loading.dart';
+import 'package:movie_app/constants/string_constants.dart';
+import 'package:movie_app/ui/Widgets/image_network.dart';
 import 'package:movie_app/ui/Widgets/noimage.dart';
 
 class SeasonCard extends StatelessWidget {
@@ -20,15 +20,7 @@ class SeasonCard extends StatelessWidget {
                     ? const SizedBox(width: 140, child: NoImage())
                     : SizedBox(
                         width: 140,
-                        child: Image.network(
-                          imageDomain + season["poster_path"],
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            }
-                            return const Loading();
-                          },
-                        ),
+                        child: ImageNetwork(imageDomain + season["poster_path"]),
                       ))),
         Expanded(
           child: Container(

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/ui/Widgets/builders/search_data_builder.dart';
 import 'package:movie_app/ui/Widgets/loading.dart';
-import 'package:movie_app/ui/Widgets/no_details.dart';
 import 'package:movie_app/providers/movies_search_provider.dart';
+import 'package:movie_app/ui/Widgets/reload.dart';
+import 'package:movie_app/ui/Widgets/welcome_search_screen_widget.dart';
 import 'package:provider/provider.dart';
-import '../Widgets/GridViews/category_gridview.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -12,27 +13,22 @@ class SearchScreen extends StatefulWidget {
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> with AutomaticKeepAliveClientMixin {
-  late TextEditingController _textEditingController;
+class _SearchScreenState extends State<SearchScreen>
+    with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
-    _textEditingController = TextEditingController();
+    print("Hello");
     super.initState();
   }
-  
-  @override
-  void dispose() {
-    _textEditingController.clear();
-    super.dispose();
-  }
-  
+
   String prev = "";
   List<dynamic> searchData = [];
-  
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    print("search built");
     return Scaffold(
       body: SafeArea(
           child: Container(
@@ -63,26 +59,7 @@ class _SearchScreenState extends State<SearchScreen> with AutomaticKeepAliveClie
               builder: (context, name, _) {
                 return Expanded(
                     child: name.isEmpty
-                        ? Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.search,
-                                  color: Theme.of(context).colorScheme.primary,
-                                  size: 64,
-                                ),
-                                const SizedBox(
-                                  height: 24,
-                                ),
-                                Text(
-                                  "Welcome to search movies screen",
-                                  style: Theme.of(context).textTheme.headline2,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          )
+                        ? const WelcomeSearchScreen()
                         : prev != name
                             ? FutureBuilder(
                                 future: Provider.of<MoviesSearch>(context,
@@ -93,30 +70,14 @@ class _SearchScreenState extends State<SearchScreen> with AutomaticKeepAliveClie
                                       ConnectionState.waiting) {
                                     return const Loading();
                                   }
+                                  if (snapShot.hasError) {
+                                    return Reload(snapShot.error.toString());
+                                  }
                                   searchData = snapShot.data as List<dynamic>;
                                   prev = name;
-                                  return Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 24,
-                                        ),
-                                        Expanded(
-                                            child: searchData.isEmpty?const NoDetails():DataGridView(snapShot.data))
-                                      ]);
+                                  return SearchDataBuilder(snapShot.data);
                                 })
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                    const SizedBox(
-                                      height: 24,
-                                    ),
-                                    Expanded(child: searchData.isEmpty?const NoDetails():DataGridView(searchData))
-                                  ]));
+                            : SearchDataBuilder(searchData));
               },
             )
           ],

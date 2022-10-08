@@ -6,7 +6,6 @@ class EpisodesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(data);
     return ListView.builder(
       itemCount: data.length,
       itemBuilder: (context, index) => Container(

@@ -22,17 +22,19 @@ class EpisodesScreen extends StatelessWidget with Data {
           ),
           leading: const EpisodeScreenBackButton()
         ),
-        body: FutureBuilder(
-          builder: ((context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Loading();
-            }
-            undetailedData = snapshot.data as List<dynamic>;
-            return Container(
-                margin: const EdgeInsets.only(left: 24, right: 24),
-                child: EpisodesListView(undetailedData));
-          }),
-          future: fetch,
+        body: SafeArea(
+          child: FutureBuilder(
+            builder: ((context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Loading();
+              }
+              undetailedData = snapshot.data as List<dynamic>;
+              return Container(
+                  margin: const EdgeInsets.only(left: 24, right: 24),
+                  child: EpisodesListView(undetailedData));
+            }),
+            future: fetch,
+          ),
         ));
   }
 }

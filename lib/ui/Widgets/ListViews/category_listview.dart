@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/repositories/detailed_data_repository.dart';
 import 'package:movie_app/ui/Screens/details_screen.dart';
+import 'package:movie_app/ui/Widgets/fetchers/details_fetcher.dart';
 import '../cards/category_card.dart';
 
 abstract class CategoryListView extends StatelessWidget {
@@ -24,7 +25,7 @@ class MoviesCategoryListView extends CategoryListView {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              MovieDetailsScreen(DetailedMoviesRepository.fetch(data.id, "movie")))),
+              DetailsScreen(MovieDetailsFetcher(DetailedMoviesRepository.fetch(data.id, "movie"))))),
       child: Container(
         width: 140,
         height: 259,
@@ -45,7 +46,7 @@ class TvsCategoryListView extends CategoryListView {
   Widget buildCard(data, context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => TVDetailsScreen(DetailedTvsRepository.fetch(data.id, "tv")))),
+          builder: (context) => DetailsScreen(TVDetailsFetcher(DetailedTvsRepository.fetch(data.id, "tv"))))),
       child: Container(
         width: 140,
         height: 259,

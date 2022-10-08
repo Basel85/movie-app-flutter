@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/ui/Widgets/ListViews/homepage_listview.dart';
 import 'package:provider/provider.dart';
-import 'package:movie_app/data/repositories/undetailed_data_repository.dart';
 import 'package:movie_app/providers/theme_mode_provider.dart';
 import 'package:movie_app/statics/theme_mode_static.dart';
-import 'package:movie_app/ui/Widgets/category_section.dart';
-import 'package:movie_app/ui/Widgets/fetchers/category_fetcher.dart';
-import 'package:movie_app/ui/Widgets/fetchers/upcoming_futurebuilder.dart';
-
-
-
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -21,6 +15,7 @@ class _HomePageScreenState extends State<HomePageScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    print("homePage built");
     super.build(context);
     return Scaffold(
       appBar: AppBar(
@@ -37,28 +32,11 @@ class _HomePageScreenState extends State<HomePageScreen>
           ),
          ],
       ),
-      body: SafeArea(
-        child: ListView(
-          children: [
-            UpcomingFetcher(UnDetailedMoviesRepository.fetch("movie", "upcoming", null)),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              DataSection(
-                  "Now Playing",
-                  MoviesCategoryFetcher(
-                      UnDetailedMoviesRepository.fetch("movie", "now_playing", null))),
-              DataSection("On TV",
-                  TvsCategoryFetcher(UnDetailedTvsRepository.fetch("tv", "popular", null))),
-              DataSection(
-                  "Popular Movies",
-                  MoviesCategoryFetcher(
-                      UnDetailedMoviesRepository.fetch("movie", "popular", null))),
-            ])
-          ],
-        ),
+      body:  const SafeArea(
+        child: HomePageListView()
       ),
     );
   }
-
   @override
   bool get wantKeepAlive => true;
 }

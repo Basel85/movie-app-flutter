@@ -1,21 +1,42 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
-import 'package:movie_app/constants.dart';
+import 'package:movie_app/constants/string_constants.dart';
+
 class Api {
   static late http.Response reponse;
-  static Future<dynamic> getData(otherUrlSegments) async{
-    reponse = await http.get(Uri.parse("$apiDomain$otherUrlSegments$apiKey"));
-    if (reponse.statusCode == 200) {
-      return reponse.body;
-    } else {
-      throw "error";
+  static Future<dynamic> getData(otherUrlSegments) async {
+    try {
+      reponse = await http
+          .get(Uri.parse("$apiDomain$otherUrlSegments$apiKey"))
+          .timeout(const Duration(seconds: 20));
+      if (reponse.statusCode == 200) {
+        return reponse.body;
+      } else {
+        print("kj");
+      }
+    } on SocketException {
+      throw "Check your internet connection";
+    } on TimeoutException {
+      throw "Connection has timed out";
     }
   }
-  static Future<dynamic> getQueryData(type,name) async{
-    reponse = await http.get(Uri.parse("$apiDomain/search/$type?api_key=$apiKey&query=$name"));
-    if (reponse.statusCode == 200) {
-      return reponse.body;
-    } else {
-      throw "error";
+
+  static Future<dynamic> getQueryData(type, name) async {
+    try {
+      reponse = await http
+          .get(Uri.parse("$apiDomain/search/$type?api_key=$apiKey&query=$name"))
+          .timeout(const Duration(seconds: 20));
+      if (reponse.statusCode == 200) {
+        return reponse.body;
+      } else {
+        print("LOL");
+      }
+    } on SocketException {
+      throw "Check your internet connection";
+    } on TimeoutException {
+      throw "Connection has timed out";
     }
   }
 }

@@ -8,13 +8,9 @@ class Mode with ChangeNotifier {
     darkMode = !darkMode;
     if (sharedPreferences.getBool("darkMode") == null) {
       sharedPreferences.setBool("darkMode", darkMode);
-      print("Hello");
-      print(sharedPreferences.getBool("darkMode"));
     } else {
       sharedPreferences.setBool(
           "darkMode", !sharedPreferences.getBool("darkMode")!);
-      print("Hi");
-      print(sharedPreferences.getBool("darkMode"));
     }
     notifyListeners();
   }

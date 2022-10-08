@@ -1,4 +1,4 @@
-import 'package:movie_app/constants.dart';
+import 'package:movie_app/constants/string_constants.dart';
 
 class Episode{
   late String? name;

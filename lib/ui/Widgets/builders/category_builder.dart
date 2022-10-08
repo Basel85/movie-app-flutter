@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
- class DataSection extends StatelessWidget {
+ class CategoryBuilder extends StatelessWidget {
   late String  categoryName;
   late dynamic  categoryFutureBuilder;
-  DataSection(name, obj, {super.key}){
+  CategoryBuilder(name, obj, {super.key}){
     categoryName=name;
     categoryFutureBuilder = obj;
   }

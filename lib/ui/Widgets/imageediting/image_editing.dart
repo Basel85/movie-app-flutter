@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/ui/Widgets/buttons/backbuttons/details_screen_backbutton.dart';
 import 'package:movie_app/ui/Widgets/buttons/bookmark_button.dart';
 import 'package:movie_app/ui/Widgets/containers/image_container.dart';
-import 'package:movie_app/ui/Widgets/imageediting/items_on_the_image.dart';
+import 'package:movie_app/ui/Widgets/imageEditing/items_on_the_image.dart';
 
 abstract class ImageEditing extends StatelessWidget {
   final _data;

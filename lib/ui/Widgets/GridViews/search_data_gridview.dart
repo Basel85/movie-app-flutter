@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/data/repositories/detailed_data_repository.dart';
 import 'package:movie_app/ui/Screens/details_screen.dart';
 import 'package:movie_app/ui/Widgets/cards/category_card.dart';
+import 'package:movie_app/ui/Widgets/fetchers/details_fetcher.dart';
 
 
-class DataGridView extends StatelessWidget {
+class SearchDataGridView extends StatelessWidget {
   final _data;
 
-  const DataGridView(this._data, {super.key});
+  const SearchDataGridView(this._data, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +26,8 @@ class DataGridView extends StatelessWidget {
                 child: CategoryCard(_data[index].image, _data[index].title,
                     _data[index].voteAverage),
                 onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => MovieDetailsScreen(
-                        DetailedMoviesRepository.fetch(_data[index].id,"movie")))),
+                    MaterialPageRoute(builder: (_) => DetailsScreen(
+                        MovieDetailsFetcher(DetailedMoviesRepository.fetch(_data[index].id,"movie"))))),
               )),
     );
   }

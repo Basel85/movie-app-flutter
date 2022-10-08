@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/repositories/detailed_data_repository.dart';
+import 'package:movie_app/ui/Widgets/fetchers/details_fetcher.dart';
 import '../../Screens/details_screen.dart';
-import '../imageediting/image_editing.dart';
+import '../imageEditing/image_editing.dart';
 
 class UpcomingPageView extends StatelessWidget {
   final _pageController;
@@ -18,8 +19,7 @@ class UpcomingPageView extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
-                        builder: (_) => MovieDetailsScreen(
-                            DetailedMoviesRepository.fetch(data.id, "movie"))),
+                        builder: (_) => DetailsScreen(MovieDetailsFetcher(DetailedMoviesRepository.fetch(data.id, "movie")))),
                   ),
                   child:
                       CarouselImageEditing(data, "Action • Drama • Adventure"),
