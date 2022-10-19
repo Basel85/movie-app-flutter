@@ -9,7 +9,7 @@ class NoDetails extends StatelessWidget {
       child: Container(
           margin: const EdgeInsets.only(bottom: 16),
           child: Text(
-            "No Details yet",
+            "No Results",
             style: Theme.of(context).textTheme.subtitle2,
           )),
     );

@@ -67,7 +67,7 @@ class TvImageEditing extends ImageEditing {
   Widget buildItemsOnTheImage() {
     return ItemsOnTheImage(
         _data.name,
-        "${_data.firstAirDate} • $_genres • ${_data.seasons.length} ${_data.seasons.length == 1 ? "season" : "seasons"}",
+        "${_data.firstAirDate} • $_genres • ${_data.numberOfSeasons == 0 ? "No seasons" : _data.numberOfSeasons == 1 ? "season" : "${_data.numberOfSeasons} seasons"}",
         _data.voteAverage,
         _data.voteCount);
   }

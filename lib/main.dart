@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/ui/Widgets/loading.dart';
 import 'package:movie_app/providers/theme_mode_provider.dart';
-import 'package:movie_app/providers/movies_search_provider.dart';
+import 'package:movie_app/data/repositories/movies_search_repository.dart';
 import 'package:movie_app/statics/theme_mode_static.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'ui/Screens/home_page_screen.dart';
-import 'ui/Screens/search_screen.dart';
 
 Future<bool> getMode() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -17,7 +16,6 @@ Future<bool> getMode() async {
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<MoviesSearch>(create: (_) => MoviesSearch()),
       ChangeNotifierProvider<Mode>(create: (_) => Mode()),
     ],
     child: const MyApp(),
@@ -32,38 +30,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late PageController _pageController;
-  int currentIndex = 0;
   bool valueGot = false;
   bool isRebuiltFromRoot = true;
-
-  @override
-  void initState() {
-    _pageController = PageController();
-    super.initState();
-  }
-
-  void onItemTapped(currentIndex) {
-    _pageController.jumpToPage(currentIndex);
-  }
-
-  void onPageChanged(index) {
-    setState(() {
-      currentIndex = index;
-      isRebuiltFromRoot = true;
-    });
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  final List<Widget> bottomNavigationBarItemScreens = [
-      const HomePageScreen(),
-      const SearchScreen()
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -153,31 +121,8 @@ class _MyAppState extends State<MyApp> {
                               : Colors.white),
                     ),
                   )),
-              home: Scaffold(
-                body: PageView(
-                  onPageChanged: onPageChanged,
-                  controller: _pageController,
-                  children: bottomNavigationBarItemScreens,
-                ),
-                bottomNavigationBar: BottomNavigationBar(
-                  onTap: onItemTapped,
-                  showSelectedLabels: true,
-                  showUnselectedLabels: false,
-                  currentIndex: currentIndex,
-                  backgroundColor: !ThemeModeStatic.value
-                      ? Colors.white
-                      : const Color(0xff1a1d1f),
-                  selectedItemColor: const Color(0xffef322c),
-                  items: const [
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.home_filled), label: "Home"),
-                    BottomNavigationBarItem(
-                        icon: Icon(
-                          Icons.search,
-                        ),
-                        label: "Search")
-                  ],
-                ),
+              home: const Scaffold(
+                body:  HomePageScreen()
               ),
             );
           }),

@@ -8,7 +8,7 @@ class CastBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(left: 24, top: 24),
+        margin: const EdgeInsets.only(left: 24, top: 24,right: 24),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             "Cast",

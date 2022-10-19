@@ -2,26 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/ui/Widgets/ListViews/cast_listview.dart';
 import 'package:movie_app/ui/Widgets/loading.dart';
 import 'package:movie_app/ui/Widgets/no_details.dart';
-import 'package:movie_app/ui/Widgets/reload.dart';
+import 'package:movie_app/ui/Widgets/error_message.dart';
 
-class CastFetcher extends StatelessWidget {
+class CastFetcher extends StatefulWidget {
   final Future<dynamic> fetch;
   CastFetcher(this.fetch, {super.key});
 
+  @override
+  State<CastFetcher> createState() => _CastFetcherState();
+}
+
+class _CastFetcherState extends State<CastFetcher> {
   List<dynamic> actors = [];
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     print("cast rebuilt");
     return FutureBuilder(
-      builder: ((context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+      builder: ((context, snapShot) {
+        if (snapShot.connectionState == ConnectionState.waiting) {
           return const Loading();
         }
-        if (snapshot.hasError) {
-          return Reload(snapshot.error.toString());
+        if (snapShot.hasError) {
+          return ErrorMessage(snapShot.error.toString());
         }
-        actors = snapshot.data as List<dynamic>;
+        actors = snapShot.data as List<dynamic>;
         return actors.isEmpty
             ? const NoDetails()
             : Builder(builder: (context) {
@@ -33,7 +39,7 @@ class CastFetcher extends StatelessWidget {
                 );
               });
       }),
-      future: actors.isEmpty ? fetch : null,
+      future: actors.isEmpty ? widget.fetch : null,
     );
   }
 }

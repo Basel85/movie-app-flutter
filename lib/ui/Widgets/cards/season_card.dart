@@ -33,6 +33,7 @@ class SeasonCard extends StatelessWidget {
                 Text(
                   season["name"],
                   style: Theme.of(context).textTheme.subtitle2,
+                  overflow: TextOverflow.ellipsis,maxLines: 2,
                 ),
                 Text(
                     "${season["episode_count"]} ${season["episode_count"] == 1 ? "episode" : "episodes"}",
