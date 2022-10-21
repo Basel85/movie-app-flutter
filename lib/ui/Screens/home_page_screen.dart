@@ -4,6 +4,7 @@ import 'package:movie_app/ui/Widgets/ListViews/homepage_listview.dart';
 import 'package:movie_app/ui/Widgets/builders/search_data_builder.dart';
 import 'package:movie_app/ui/Widgets/loading.dart';
 import 'package:movie_app/ui/Widgets/error_message.dart';
+import 'package:movie_app/ui/Widgets/welcome_search_screen_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:movie_app/providers/theme_mode_provider.dart';
 import 'package:movie_app/statics/theme_mode_static.dart';
@@ -15,12 +16,9 @@ class HomePageScreen extends StatefulWidget {
   State<HomePageScreen> createState() => _HomePageScreenState();
 }
 
-class _HomePageScreenState extends State<HomePageScreen>
-    with AutomaticKeepAliveClientMixin {
+class _HomePageScreenState extends State<HomePageScreen>{
   @override
   Widget build(BuildContext context) {
-    print("homePage built");
-    super.build(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -48,17 +46,13 @@ class _HomePageScreenState extends State<HomePageScreen>
       body: const SafeArea(child: HomePageListView()),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
-List<List<dynamic>> searchResults = [];
-List<String> searchQueries = [];
+
 List<dynamic> searchedData = [];
 String prev = "";
 
-class MySearchDelegate extends SearchDelegate {
+class MySearchDelegate extends SearchDelegate<String?> {
   BuildContext _context;
   MySearchDelegate(this._context);
   @override
@@ -67,6 +61,8 @@ class MySearchDelegate extends SearchDelegate {
   InputDecorationTheme? get searchFieldDecorationTheme => InputDecorationTheme(
         hintStyle: Theme.of(_context).textTheme.bodyText1,
       );
+  @override
+  TextStyle? get searchFieldStyle => Theme.of(_context).textTheme.bodyText2;
   @override
   List<Widget>? buildActions(BuildContext context) => [
         query.isNotEmpty
@@ -81,60 +77,21 @@ class MySearchDelegate extends SearchDelegate {
   @override
   Widget? buildLeading(BuildContext context) => WillPopScope(
         onWillPop: () async {
-          print(searchResults.length);
-          print(searchQueries.length);
-          if (searchResults.isNotEmpty) {
-            searchResults.removeLast();
-          }
-          if (searchQueries.isNotEmpty) {
-            searchQueries.removeLast();
-          }
-          if (searchResults.isEmpty && searchQueries.isEmpty) {
-            searchedData = [];
-            prev = '';
-            query = '';
-            return true;
-          } else {
-            prev = searchQueries.last;
-            query = prev;
-            searchedData = searchResults.last;
-            buildResults(context);
-          }
-          return false;
+          return true;
         },
         child: IconButton(
           onPressed: () {
-            print(searchResults.length);
-            print(searchQueries.length);
-            if (searchResults.isNotEmpty) {
-              searchResults.removeLast();
-            }
-            if (searchQueries.isNotEmpty) {
-              searchQueries.removeLast();
-            }
-            if (searchResults.isEmpty && searchQueries.isEmpty) {
-              searchedData = [];
-              prev = '';
-              query = '';
-              close(context, null);
-            } else {
-              prev = searchQueries.last;
-              query = prev;
-              searchedData = searchResults.last;
-              buildResults(context);
-            }
+            close(context, null);
           },
           icon: const Icon(Icons.arrow_back),
         ),
       );
-
   @override
   Widget buildResults(BuildContext context) {
     return Container(
       margin: const EdgeInsetsDirectional.fromSTEB(24, 16, 24, 0),
       child: Builder(
         builder: (context) {
-          print(prev);
           return query.isNotEmpty
               ? prev.trim() != query.trim()
                   ? FutureBuilder(
@@ -149,10 +106,6 @@ class MySearchDelegate extends SearchDelegate {
                         }
                         prev = query;
                         searchedData = snapShot.data as List<dynamic>;
-                        if(searchedData.isNotEmpty){
-                            searchResults.add(searchedData);
-                            searchQueries.add(query);
-                        }
                         return SearchDataBuilder(searchedData);
                       })
                   : SearchDataBuilder(searchedData)
@@ -163,5 +116,7 @@ class MySearchDelegate extends SearchDelegate {
   }
 
   @override
-  Widget buildSuggestions(BuildContext context) => Container();
+  Widget buildSuggestions(BuildContext context) => const Center(
+        child: WelcomeSearchScreen(),
+      );
 }

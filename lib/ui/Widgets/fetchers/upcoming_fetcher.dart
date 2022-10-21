@@ -31,9 +31,6 @@ class _UpcomingFetcherState extends State<UpcomingFetcher>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final size = MediaQuery.of(context).size;
-    print("upcoming rebuilt");
-    print(currentMode);
     return FutureBuilder(builder: (context, snapShot) {
       if (snapShot.connectionState == ConnectionState.waiting) {
         currentMode = ThemeModeStatic.value;

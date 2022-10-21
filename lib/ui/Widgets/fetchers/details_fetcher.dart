@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/repositories/undetailed_data_repository.dart';
-import 'package:movie_app/interfaces/refresher.dart';
 import 'package:movie_app/mixins/data.dart';
 import 'package:movie_app/ui/Widgets/builders/cast_builder.dart';
 import 'package:movie_app/ui/Widgets/builders/season_builder.dart';
@@ -26,13 +25,10 @@ abstract class DetailsFetcher extends StatefulWidget {
 class _DetailsFetcherState extends State<DetailsFetcher> with Data {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     detailedData = null;
     widget.genres = [];
-    print("I got u ,homie");
     return FutureBuilder(
         builder: ((context, snapShot) {
-          print(detailedData);
           if (snapShot.connectionState == ConnectionState.waiting) {
             return const Loading();
           }

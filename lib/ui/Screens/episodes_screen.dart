@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/ui/Widgets/ListViews/episodes_listview.dart';
 import 'package:movie_app/ui/Widgets/buttons/backbuttons/episode_screen_backbutton.dart';
+import 'package:movie_app/ui/Widgets/error_message.dart';
 import 'package:movie_app/ui/Widgets/loading.dart';
 import '../../mixins/data.dart';
 
@@ -13,20 +14,22 @@ class EpisodesScreen extends StatelessWidget with Data {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          title: Text(
-            seasonName,
-            style: Theme.of(context).textTheme.headline2,
-          ),
-          leading: const EpisodeScreenBackButton()
-        ),
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+            centerTitle: true,
+            title: Text(
+              seasonName,
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            leading: const EpisodeScreenBackButton()),
         body: SafeArea(
           child: FutureBuilder(
             builder: ((context, snapshot) {
-              if (!snapshot.hasData) {
+              if (snapshot.connectionState==ConnectionState.waiting) {
                 return const Loading();
+              }
+              if (snapshot.hasError) {
+                return ErrorMessage(snapshot.error.toString());
               }
               undetailedData = snapshot.data as List<dynamic>;
               return Container(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/ui/Widgets/loading.dart';
 import 'package:movie_app/providers/theme_mode_provider.dart';
-import 'package:movie_app/data/repositories/movies_search_repository.dart';
 import 'package:movie_app/statics/theme_mode_static.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,7 +34,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    print("main built");
+    
     return Consumer<Mode>(
       builder: (context, mode, _) {
         if (valueGot && !isRebuiltFromRoot) {

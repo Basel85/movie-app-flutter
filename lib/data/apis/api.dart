@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:movie_app/constants/string_constants.dart';
 
@@ -14,12 +13,14 @@ class Api {
       if (reponse.statusCode == 200) {
         return reponse.body;
       } else {
-        print("kj");
+        throw "Something went wrong, please try again later";
       }
     } on SocketException {
       throw "Check your internet connection";
     } on TimeoutException {
       throw "Connection has timed out";
+    } catch (e) {
+      throw "Something went wrong, please try again later";
     }
   }
 
@@ -31,12 +32,15 @@ class Api {
       if (reponse.statusCode == 200) {
         return reponse.body;
       } else {
-        print("LOL");
+        throw "Something went wrong, please try again later";
       }
     } on SocketException {
       throw "Check your internet connection";
     } on TimeoutException {
       throw "Connection has timed out";
+    }
+    catch(e){
+      throw "Something went wrong, please try again later";
     }
   }
 }

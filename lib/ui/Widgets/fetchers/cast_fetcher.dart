@@ -6,7 +6,7 @@ import 'package:movie_app/ui/Widgets/error_message.dart';
 
 class CastFetcher extends StatefulWidget {
   final Future<dynamic> fetch;
-  CastFetcher(this.fetch, {super.key});
+  const CastFetcher(this.fetch, {super.key});
 
   @override
   State<CastFetcher> createState() => _CastFetcherState();
@@ -17,9 +17,9 @@ class _CastFetcherState extends State<CastFetcher> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    print("cast rebuilt");
+    
     return FutureBuilder(
+      future: actors.isEmpty ? widget.fetch : null,
       builder: ((context, snapShot) {
         if (snapShot.connectionState == ConnectionState.waiting) {
           return const Loading();
@@ -39,7 +39,6 @@ class _CastFetcherState extends State<CastFetcher> {
                 );
               });
       }),
-      future: actors.isEmpty ? widget.fetch : null,
     );
   }
 }

@@ -5,8 +5,8 @@ import 'package:movie_app/ui/Widgets/noimage.dart';
 class CategoryCard extends StatelessWidget {
   final _imageUrl;
   final _title;
-  final _vote_average;
-  const CategoryCard(this._imageUrl, this._title, this._vote_average,
+  final _voteAverage;
+  const CategoryCard(this._imageUrl, this._title, this._voteAverage,
       {super.key});
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class CategoryCard extends StatelessWidget {
               color: Colors.yellow,
             ),
             Text(
-              "$_vote_average",
+              "$_voteAverage",
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ],

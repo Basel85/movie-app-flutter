@@ -15,7 +15,6 @@ class HomePageListView extends StatefulWidget {
 class _HomePageListViewState extends State<HomePageListView> implements Refresher {
   @override
   Widget build(BuildContext context) {
-    print("Surprise isn't it");
     return RefreshIndicator(
       onRefresh: refresh,
       child: ListView(
