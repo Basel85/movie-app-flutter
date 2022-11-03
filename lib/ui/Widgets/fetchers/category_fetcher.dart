@@ -5,20 +5,21 @@ import 'package:movie_app/ui/Widgets/no_results.dart';
 import 'package:movie_app/mixins/data.dart';
 import 'package:movie_app/ui/Widgets/error_message.dart';
 
-class MoviesCategoryFetcher extends StatefulWidget {
-  final Future<dynamic> _fetch;
+abstract class CategoryFetcher extends StatefulWidget {
+  final Future<dynamic> fetch;
+  Widget buildListView(undetailedData);
 
-  const MoviesCategoryFetcher(this._fetch, {super.key});
+  const CategoryFetcher(this.fetch,{super.key});
+
   @override
-  State<MoviesCategoryFetcher> createState() => _MoviesCategoryFetcherState();
+  State<CategoryFetcher> createState() => _CategoryFetcherState();
 }
 
-class _MoviesCategoryFetcherState extends State<MoviesCategoryFetcher>
-    with Data {
+class _CategoryFetcherState extends State<CategoryFetcher> with Data {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: widget._fetch,
+      future: widget.fetch,
       builder: (context, snapShot) {
         if (snapShot.connectionState == ConnectionState.waiting) {
           return const Loading();
@@ -32,43 +33,27 @@ class _MoviesCategoryFetcherState extends State<MoviesCategoryFetcher>
             : Container(
                 margin: const EdgeInsets.only(left: 24),
                 child: SizedBox(
-                    height: 259, child: MoviesCategoryListView(undetailedData)),
+                    height: 259, child: widget.buildListView(undetailedData)),
               );
       },
     );
   }
 }
 
-class TvsCategoryFetcher extends StatefulWidget {
-  final Future<dynamic> fetch;
-
-  const TvsCategoryFetcher(this.fetch, {super.key});
-  @override
-  State<TvsCategoryFetcher> createState() => _TvsCategoryFetcherState();
-}
-
-class _TvsCategoryFetcherState extends State<TvsCategoryFetcher> with Data {
+class MoviesCategoryFetcher extends CategoryFetcher {
+  const MoviesCategoryFetcher(super.fetch, {super.key});
   
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      builder: (context, snapShot) {
-        if (snapShot.connectionState == ConnectionState.waiting) {
-          return const Loading();
-        }
-        if (snapShot.hasError) {
-          return ErrorMessage(snapShot.error.toString());
-        }
-        undetailedData = snapShot.data as List<dynamic>;
-        return undetailedData.isEmpty
-            ? const NoResults()
-            : Container(
-                margin: const EdgeInsets.only(left: 24),
-                child: SizedBox(
-                    height: 259, child: TvsCategoryListView(undetailedData)),
-              );
-      },
-      future: widget.fetch,
-    );
+  Widget buildListView(undetailedData) {
+    return MoviesCategoryListView(undetailedData);
+  }
+}
+
+class TvsCategoryFetcher extends CategoryFetcher {
+  const TvsCategoryFetcher(super.fetch,{super.key});
+
+  @override
+  Widget buildListView(undetailedData) {
+    return TvsCategoryListView(undetailedData);
   }
 }

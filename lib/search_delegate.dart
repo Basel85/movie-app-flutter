@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/ui/Widgets/builders/search_data_builder.dart';
 import 'package:movie_app/ui/Widgets/error_message.dart';
-import 'package:movie_app/ui/Widgets/welcome_search_screen_widget.dart';
 import 'data/repositories/movies_search_repository.dart';
 import 'ui/Widgets/loading.dart';
+
 List<dynamic> searchedData = [];
 String prev = "";
+
 class MySearchDelegate extends SearchDelegate<String?> {
   BuildContext _context;
   MySearchDelegate(this._context);
@@ -70,7 +71,5 @@ class MySearchDelegate extends SearchDelegate<String?> {
   }
 
   @override
-  Widget buildSuggestions(BuildContext context) => const Center(
-        child: WelcomeSearchScreen(),
-      );
+  Widget buildSuggestions(BuildContext context) => Container();
 }
