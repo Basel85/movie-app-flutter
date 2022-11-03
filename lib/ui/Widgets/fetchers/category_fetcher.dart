@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/ui/Widgets/ListViews/category_listview.dart';
 import 'package:movie_app/ui/Widgets/loading.dart';
-import 'package:movie_app/ui/Widgets/no_details.dart';
+import 'package:movie_app/ui/Widgets/no_results.dart';
 import 'package:movie_app/mixins/data.dart';
 import 'package:movie_app/ui/Widgets/error_message.dart';
 
@@ -28,7 +28,7 @@ class _MoviesCategoryFetcherState extends State<MoviesCategoryFetcher>
         }
         undetailedData = snapShot.data as List<dynamic>;
         return undetailedData.isEmpty
-            ? const NoDetails()
+            ? const NoResults()
             : Container(
                 margin: const EdgeInsets.only(left: 24),
                 child: SizedBox(
@@ -61,7 +61,7 @@ class _TvsCategoryFetcherState extends State<TvsCategoryFetcher> with Data {
         }
         undetailedData = snapShot.data as List<dynamic>;
         return undetailedData.isEmpty
-            ? const NoDetails()
+            ? const NoResults()
             : Container(
                 margin: const EdgeInsets.only(left: 24),
                 child: SizedBox(

@@ -14,8 +14,4 @@ class Mode with ChangeNotifier {
     }
     notifyListeners();
   }
-
-  void setMode(value) {
-    darkMode = value;
-  }
 }

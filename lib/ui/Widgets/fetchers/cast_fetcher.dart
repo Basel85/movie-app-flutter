@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/ui/Widgets/ListViews/cast_listview.dart';
 import 'package:movie_app/ui/Widgets/loading.dart';
-import 'package:movie_app/ui/Widgets/no_details.dart';
+import 'package:movie_app/ui/Widgets/no_results.dart';
 import 'package:movie_app/ui/Widgets/error_message.dart';
 
 class CastFetcher extends StatefulWidget {
@@ -17,7 +17,6 @@ class _CastFetcherState extends State<CastFetcher> {
 
   @override
   Widget build(BuildContext context) {
-    
     return FutureBuilder(
       future: actors.isEmpty ? widget.fetch : null,
       builder: ((context, snapShot) {
@@ -29,7 +28,7 @@ class _CastFetcherState extends State<CastFetcher> {
         }
         actors = snapShot.data as List<dynamic>;
         return actors.isEmpty
-            ? const NoDetails()
+            ? const NoResults()
             : Builder(builder: (context) {
                 return Container(
                   height: 260,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/ui/Widgets/GridViews/search_data_gridview.dart';
-import 'package:movie_app/ui/Widgets/no_details.dart';
+import 'package:movie_app/ui/Widgets/no_results.dart';
 
 class SearchDataBuilder extends StatelessWidget {
   final _data;
@@ -17,7 +17,7 @@ class SearchDataBuilder extends StatelessWidget {
           ),
           Expanded(
               child: _data.isEmpty
-                  ? const NoDetails()
+                  ? const NoResults()
                   : SearchDataGridView(_data))
         ]);
   }

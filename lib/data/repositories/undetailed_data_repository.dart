@@ -1,4 +1,5 @@
-import 'package:movie_app/data/apis/api.dart';
+import 'package:movie_app/constants/string_constants.dart';
+import 'package:movie_app/data/apis/getter_api.dart';
 import 'package:movie_app/data/models/undetailed_movie_model.dart';
 import 'package:movie_app/data/models/undetailed_tv_model.dart';
 import 'dart:convert';
@@ -9,7 +10,7 @@ abstract class UnDetailedDataRepository{
     if (id != null) {
       idUrlSegment = "$id/";
     }
-    final data = await Api.getData("/$type/$idUrlSegment$category?api_key=");
+    final data = await GetterApi.getData("$apiDomain/$type/$idUrlSegment$category?api_key=$apiKey");
     final result = json.decode(data) as Map<String, dynamic>;
     return result;
   }

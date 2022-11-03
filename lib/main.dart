@@ -5,7 +5,7 @@ import 'package:movie_app/providers/theme_mode_provider.dart';
 import 'package:movie_app/statics/theme_mode_static.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'ui/Screens/home_page_screen.dart';
+import 'ui/Screens/home_screen.dart';
 
 Future<bool> getMode() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -121,7 +121,7 @@ class _MyAppState extends State<MyApp> {
                     ),
                   )),
               home: const Scaffold(
-                body:  HomePageScreen()
+                body:  HomeScreen()
               ),
             );
           }),
