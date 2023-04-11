@@ -1,5 +1,14 @@
 # Movie App
 
+## Movie Api
+I used a RESTFUL API from TMDB (The Movie Database) to retrieve the movies and series data to build the application.
+
+## Used tools
+- Flutter
+- Dart
+- Restful Api
+- Provider as a state management
+
 
  ## Screenshots
  
