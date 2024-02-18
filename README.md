@@ -31,3 +31,6 @@ I used a RESTFUL API from TMDB (The Movie Database) to retrieve the movies and s
   <p align = "center"><img src = "https://user-images.githubusercontent.com/80516466/231127366-8b4578f9-4a09-45f6-9c24-215df10b57ba.jpg" width = "30%"/></p>
   <p align = "center"><img src = "https://user-images.githubusercontent.com/80516466/231127533-e099338a-9122-4acd-9445-c64968447335.jpg" width = "30%"/></p>
   <p align = "center"><img src = "https://user-images.githubusercontent.com/80516466/231127684-c4579a98-7a23-477b-a241-035053a48127.jpg" width = "30%"/></p>
+
+  ## App Video
+  https://drive.google.com/file/d/1BIUqWcWVSVZuV8dG8bFm_Wr4GSRG5BV6/view?usp=sharing
